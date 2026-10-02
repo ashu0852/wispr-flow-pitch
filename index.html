@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ashutosh Singh · Upcoming Head of Growth · Wispr Flow</title>
+<meta name="description" content="Ashutosh Singh's application for Head of Growth, B2C at Wispr Flow.">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="bar">
+  <a class="name" href="#top">Ashutosh Singh</a>
+  <span class="role"><i class="live" aria-hidden="true"></i>Upcoming Head of Growth · Wispr Flow</span>
+  <nav class="bar-nav" aria-label="Sections"><a href="#math">The math</a><a href="#days">First year</a></nav>
+  <button class="snd" id="snd" type="button" aria-pressed="true" title="Spider-Man's voice"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 5V4L8 9H4z"/><path class="snd-on" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="snd-off" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16.5 9.5l5 5M21.5 9.5l-5 5"/></svg><span>Spider-Man's voice</span></button>
+  <a class="talk" href="#interview"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Interview me</a>
+</header>
+
+<!-- Spider-Man, the guide who wanders the page and talks you through it -->
+<div class="rail" id="rail" aria-hidden="true"><div class="rail-line"><i id="railFill"></i></div><div id="railStops"></div></div>
+<svg class="webs" id="webs" aria-hidden="true"><path class="web-a" id="webA" d=""/><path class="web-b" id="webB" d=""/><g id="splats"></g></svg>
+<button class="buddy" id="buddy" type="button" aria-label="Spider-Man, your guide. Click for a swing and a fun fact.">
+  <span class="b-face">
+  <svg class="spider-art" viewBox="0 0 100 120" aria-hidden="true">
+    <defs>
+      <linearGradient id="sp-red" x1="0" y1="0" x2="1" y2=".8">
+        <stop stop-color="#ff6259"/><stop offset=".42" stop-color="#e62e3c"/><stop offset="1" stop-color="#97172d"/>
+      </linearGradient>
+      <linearGradient id="sp-blue" x1="0" y1="0" x2="1" y2=".5">
+        <stop stop-color="#388dc5"/><stop offset=".45" stop-color="#15517e"/><stop offset="1" stop-color="#0c223f"/>
+      </linearGradient>
+      <linearGradient id="sp-eye" x1="0" y1="0" x2=".5" y2="1">
+        <stop stop-color="#fff"/><stop offset="1" stop-color="#c8e6ee"/>
+      </linearGradient>
+      <clipPath id="sp-head-clip"><path d="M35 22 C34 10 40 5 50 5 C60 5 66 10 65 22 L63 31 Q59 41 50 43 Q41 41 37 31 Z"/></clipPath>
+      <clipPath id="sp-chest-clip"><path d="M39 42 Q50 38 61 42 L65 47 L59 63 L56 75 L44 75 L41 63 L35 47 Z"/></clipPath>
+      <g id="sp-arm">
+        <path class="suit-blue suit-edge" d="M-4 -2 Q-9 4 -6 12 L-4 21 L4 21 L5 10 Q7 1 3 -3 Z"/>
+        <path class="suit-red suit-edge" d="M-4 -3 Q-8 1 -6 7 L-2 12 L2 6 L4 0 Z"/>
+        <path class="suit-red suit-edge" d="M-5 14 Q-6 21 -4 27 Q0 30 4 27 L5 15 Q0 17 -5 14 Z"/>
+        <path class="suit-web" d="M-4 19 Q0 21 4 19 M-4 23 Q0 25 4 23 M0 16 L0 28 M-4 1 L2 5 M-5 5 L0 8"/>
+        <path class="suit-red suit-edge" d="M-3 26 L-4 31 Q-4 33 -2 32 L0 29 L2 30 L4 28 L4 24"/>
+        <path class="suit-light" d="M-4 2 L-4 5 M-3 17 L-3 21"/>
+      </g>
+      <g id="sp-thigh">
+        <path class="suit-blue suit-edge" d="M-6 -3 Q-8 5 -5 17 Q0 22 5 17 L6 6 L6 -2 Z"/>
+        <path class="suit-muscle" d="M-2 2 Q-4 9 -1 16"/>
+      </g>
+      <g id="sp-shin">
+        <path class="suit-blue suit-edge" d="M-5 -2 Q0 -5 5 -2 L4 16 L-4 16 Z"/>
+        <path class="suit-red suit-edge" d="M-5 2 Q0 5 5 2 L4 17 L-5 17 Z"/>
+        <path class="suit-web" d="M-5 8 Q0 11 4 8 M-5 13 Q0 16 4 13 M0 5 L0 17"/>
+        <path class="suit-light" d="M-3 6 L-3 11"/>
+      </g>
+      <g id="sp-foot">
+        <path class="suit-red suit-edge" d="M-5 -3 L4 -3 L7 0 Q8 3 4 3 L-5 2 Q-7 1 -5 -3 Z"/>
+        <path class="suit-web" d="M0 -3 V2 M-5 -1 L6 0"/>
+      </g>
+    </defs>
+    <g class="b-body">
+      <!-- Articulated hips, shoulders and wrist retain the guide's swing rig. -->
+      <g transform="translate(43 75)"><g class="leg legL"><use href="#sp-thigh"/><g transform="translate(0 18)"><g class="knee kneeL"><use href="#sp-shin"/><g transform="translate(0 18)"><g class="foot footL"><use href="#sp-foot"/></g></g></g></g></g></g>
+      <g transform="translate(57 75)"><g class="leg legR"><use href="#sp-thigh"/><g transform="translate(0 18)"><g class="knee kneeR"><use href="#sp-shin"/><g transform="translate(0 18)"><g class="foot footR"><use href="#sp-foot"/></g></g></g></g></g></g>
+      <g class="upper-body">
+      <g transform="translate(35 49)"><g class="arm armL"><use href="#sp-arm"/></g></g>
+      <path class="suit-blue suit-edge" d="M38 42 Q50 37 62 42 L66 49 L62 61 L59 76 Q50 82 41 76 L38 61 L34 49 Z"/>
+      <path class="suit-red suit-edge" d="M39 42 Q50 38 61 42 L65 47 L59 63 L56 75 L44 75 L41 63 L35 47 Z"/>
+      <g class="suit-web" clip-path="url(#sp-chest-clip)">
+        <path d="M50 40 V76 M50 53 L34 42 M50 53 L66 42 M50 53 L36 59 M50 53 L64 59 M50 53 L41 77 M50 53 L59 77"/>
+        <path d="M36 46 Q50 51 64 46 M38 53 Q50 58 62 53 M40 61 Q50 66 60 61 M42 69 Q50 73 58 69"/>
+      </g>
+      <path class="suit-muscle" d="M38 49 Q42 54 47 52 M62 49 Q58 54 53 52 M42 60 L46 62 M58 60 L54 62 M45 69 L48 70 M55 69 L52 70"/>
+      <path class="suit-red suit-edge" d="M41 73 Q50 76 59 73 L59 78 Q50 81 41 78 Z"/>
+      <g class="spider-emblem" transform="translate(50 55)">
+        <path d="M-1 -2 L-5 -5 L-6 -9 M1 -2 L5 -5 L6 -9 M-2 0 L-7 -3 L-9 -7 M2 0 L7 -3 L9 -7 M-2 2 L-6 5 L-7 10 M2 2 L6 5 L7 10 M-1 3 L-4 7 L-4 12 M1 3 L4 7 L4 12"/>
+        <ellipse cy="2" rx="2" ry="4"/><circle cy="-2" r="1.6"/>
+      </g>
+      <path class="suit-red suit-edge" d="M44 35 L43 43 Q50 47 57 43 L56 35 Z"/>
+      <g class="head">
+        <path class="skull suit-red suit-edge" d="M35 22 C34 10 40 5 50 5 C60 5 66 10 65 22 L63 31 Q59 41 50 43 Q41 41 37 31 Z"/>
+        <g class="suit-web mask-web" clip-path="url(#sp-head-clip)">
+          <path d="M50 5 V43 M50 25 L38 7 M50 25 L62 7 M50 25 L33 16 M50 25 L67 16 M50 25 L34 29 M50 25 L66 29 M50 25 L40 40 M50 25 L60 40"/>
+          <path d="M36 14 Q50 7 64 14 M34 22 Q41 17 50 16 Q59 17 66 22 M35 31 Q43 28 50 31 Q57 28 65 31 M39 38 Q45 35 50 38 Q55 35 61 38"/>
+        </g>
+        <path class="suit-light" d="M39 16 Q40 9 47 8"/>
+        <g class="lenses">
+          <path d="M37 19 Q44 22 48 27 Q46 33 41 30 Q37 28 37 19 Z"/>
+          <path d="M63 19 Q56 22 52 27 Q54 33 59 30 Q63 28 63 19 Z"/>
+        </g>
+      </g>
+      <g transform="translate(65 49)"><g class="arm armR"><use href="#sp-arm"/></g></g>
+      </g>
+    </g>
+  </svg>
+  </span>
+</button>
+<div class="bubble" id="bubble" role="status" aria-live="polite"></div>
+
+<main id="top">
+
+<section class="hero" data-say="hello">
+  <div class="hero-copy">
+    <p class="hello">For Tanay and the Wispr Flow team</p>
+    <div class="dictate" aria-hidden="true">
+      <span class="pill-wave"><i></i><i></i><i></i><i></i><i></i></span>
+      <p><span class="raw" id="raw"></span><span class="clean" id="clean"></span></p>
+      <span class="d-tag" id="dTag">You say</span>
+    </div>
+    <h1 id="h1"><span class="w">Ashutosh</span> <span class="w">Singh,</span><br><span class="w">your</span> <span class="w">upcoming</span> <em><span class="w">Head</span> <span class="w">of</span> <span class="w">Growth.</span></em></h1>
+    <p class="intro">This April I was Wispr Flow's <b>#1 user in my cohort</b>. Below is my growth plan, in numbers: where the revenue leaks, seven bets sized in dollars, and a one-year plan with the scoreboard I'd want to be judged on.</p>
+    <div class="actions"><a class="btn solid" href="#math">Show me the math</a><a class="btn line" href="#path">Walk the plan</a></div>
+    <button type="button" class="me-play" id="meIntro" data-clip="intro" hidden><span class="me-ic"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span><span class="me-t">Hear it from me<small>20 seconds, in my own voice</small></span></button>
+  </div>
+
+  <div class="hero-art">
+    <figure class="recap float" aria-label="My Wispr Flow usage, from Wispr Flow's recap emails">
+      <figcaption><span>From my Wispr Flow recap emails</span><span class="mini-wave" aria-hidden="true"><i></i><i></i><i></i></span></figcaption>
+      <div class="rank">
+        <b>#1</b>
+        <p><strong>Most words dictated</strong> among everyone who started Flow when I did.<span class="up">↑ 3 spots since March</span></p>
+      </div>
+      <div class="recap-row">
+        <p class="recap-big"><span data-count="70900">70,900</span><small>words dictated, Jan–Apr 2026</small></p>
+        <div class="bars" id="bars"></div>
+      </div>
+      <dl>
+        <div><dt>Words a minute</dt><dd>134</dd><small>3× typing speed</small></div>
+        <div><dt>Apps &amp; sites</dt><dd>21</dd><small>9 new in April</small></div>
+        <div><dt>Devices</dt><dd>3</dd><small>Mac, iPhone, Android</small></div>
+      </dl>
+      <p class="def">"Cohort" is Wispr Flow's own term: users who started around the same time, ranked by total words.</p>
+    </figure>
+  </div>
+</section>
+
+<section class="chapter ink today" id="today" data-say="today">
+  <p class="kicker center">The starting point</p>
+  <h2 class="center">Demand isn't Wispr Flow's problem. <em>Turning it into revenue is.</em></h2>
+  <div class="facts">
+    <div class="fact"><b data-to="2" data-pre="$" data-suf="B">$2B</b><span>valuation at the Series B, Aug 2026</span></div>
+    <div class="fact"><b data-to="60" data-suf="B">60B</b><span>words written with Flow</span></div>
+    <div class="fact"><b data-to="2.5" data-dec="1" data-suf="M">2.5M</b><span>downloads in seven months</span></div>
+    <div class="fact"><b data-to="70" data-suf="%">70%</b><span>still using it after 12 months</span></div>
+    <div class="fact"><b data-to="19" data-suf="%">19%</b><span>of free users go paid</span></div>
+    <div class="fact hot"><b>14% → 2%</b><span>India's share of downloads, then of revenue</span></div>
+  </div>
+  <p class="body center">People download Flow and love it. The money leaks in the steps between a download and a dollar: activation, payment and referral. That's where my plan works.</p>
+  <p class="src center">Wispr Flow's Series B post · TechCrunch, May 2026 · Postbeam's growth teardown</p>
+</section>
+
+<section class="chapter game-sec" id="game" data-say="game">
+  <p class="kicker center">A 10-second game</p>
+  <h2 class="center">Be Wispr Flow. <em>Zap the fillers.</em></h2>
+  <p class="body center">Tap every filler word. Growth is the same job: find the friction, remove it.</p>
+  <div class="sentence" id="sentence"></div>
+  <div class="game-bar"><span id="zapCount">0 of 6 zapped</span><button type="button" class="btn-mini" id="zapAll">Zap them all for me</button></div>
+  <p class="game-done" id="gameDone">Clean. Now here's the friction I found in Wispr Flow's funnel. <a href="#path">See the route ↓</a></p>
+</section>
+
+<section class="chapter route-sec" id="path" data-say="route">
+  <p class="kicker center">The route</p>
+  <h2 class="center">Six stops from <em>user to Head of Growth.</em></h2>
+  <p class="body center">Tap any stop to jump there. Spider-Man keeps track of where you are.</p>
+  <div class="road" id="road">
+    <svg class="road-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><path class="road-bg" id="roadPath" d="M0 90 C50 90 60 90 100 90 C200 90 200 30 300 30 C400 30 400 90 500 90 C600 90 600 30 700 30 C800 30 800 90 900 90 C1000 90 1000 30 1100 30 C1150 30 1160 30 1200 30"/><path class="road-draw" d="M0 90 C50 90 60 90 100 90 C200 90 200 30 300 30 C400 30 400 90 500 90 C600 90 600 30 700 30 C800 30 800 90 900 90 C1000 90 1000 30 1100 30 C1150 30 1160 30 1200 30"/></svg>
+    <span class="traveler" id="traveler" aria-hidden="true"></span>
+    <ol class="stops">
+      <li><a href="#noticed"><span class="dot">1</span><b>Listen like a user</b><small>What Flow's emails got wrong about me</small></a></li>
+      <li><a href="#leaks"><span class="dot">2</span><b>Plug two leaks</b><small>Free Pro for anyone, lost UPI payers</small></a></li>
+      <li><a href="#india"><span class="dot">3</span><b>Win India</b><small>14% of downloads, 2% of revenue</small></a></li>
+      <li><a href="#linkedin"><span class="dot">4</span><b>Make LinkedIn a channel</b><small>Spoken posts, paid on activation</small></a></li>
+      <li><a href="#math"><span class="dot">5</span><b>Add up the math</b><small>Seven bets, sized in dollars</small></a></li>
+      <li><a href="#days"><span class="dot">6</span><b>The first year</b><small>30 days, 90 days, 6 months, 12 months</small></a></li>
+    </ol>
+  </div>
+</section>
+
+<section id="noticed" class="chapter lav" data-stop="1" data-say="s1">
+  <p class="stop-tag"><span>Stop 1 of 6</span>Listen like a user</p>
+  <div class="split">
+    <div>
+      <h2>On Android, Wispr Flow greeted me <em>like a stranger.</em></h2>
+      <p class="body">70,900 words in, my new phone got the day-0 welcome, the day-2 win-back and the day-10 survey. The emails are good. The system behind them knows my device, not me.</p>
+      <div class="ab" data-target="#devices"><button type="button" data-v="now" aria-pressed="true">What happens now</button><button type="button" data-v="fix" aria-pressed="false">With my fix</button></div>
+    </div>
+    <div class="devices" id="devices" data-v="now">
+      <div class="dev mac"><span class="dev-label">My Mac</span><b>Ashutosh</b><p>70,900 words · #1 in cohort</p></div>
+      <div class="link" aria-hidden="true"><i></i><span class="ln-now">Not linked</span><span class="ln-fix">Same person</span></div>
+      <div class="dev phone"><span class="dev-label">My new Android</span>
+        <div class="mails m-now">
+          <div class="mail"><span>Day 0</span><b>Welcome to Wispr Flow</b><p>"Try Flow just once today."</p></div>
+          <div class="mail"><span>Day 2</span><b>Ready to voice type again?</b><p>"Did you know you can use Flow anywhere?"</p></div>
+          <div class="mail"><span>Day 10</span><b>One quick question for you</b><p>"How likely are you to recommend us?"</p></div>
+        </div>
+        <div class="mails m-fix">
+          <div class="mail"><span>Day 0</span><b>Welcome back, Ashutosh</b><p>"Your dictionary came with you. Try Flow in WhatsApp."</p></div>
+          <div class="mail"><span>Day 2</span><b>Flow speaks Hinglish now</b><p>"Say your next message out loud, mix as you like."</p></div>
+          <div class="mail"><span>Day 10</span><b>Give a friend a free month</b><p>"One tap to share on WhatsApp."</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="pull">One identity across devices turns every new install into an upsell, not a cold start. <span class="pull-num">In my model: +2 points of activation in every market.</span></p>
+  <div class="notes">
+    <article><span class="n-tag">Recap email</span><b>The monthly recap is your best email.</b><p>Make it a shareable card with the referral link inside. One tap to LinkedIn or WhatsApp.</p></article>
+    <article><span class="n-tag">Accuracy dip</span><b>"It's usually the mic, not the model."</b><p>Reviewers talk about a post-trial accuracy dip. Show the 10-second fix: add three words to the dictionary.</p></article>
+    <article><span class="n-tag">Timing</span><b>NPS and the Canto launch landed the same day.</b><p>Two asks, one open. Time NPS by tenure, and send every 9 or 10 straight to a referral ask.</p></article>
+    <article><span class="n-tag">India</span><b>My referral email: English only, no WhatsApp.</b><p>India is where referral loops travel fastest.</p></article>
+  </div>
+</section>
+
+<section class="chapter paper" id="leaks" data-stop="2" data-say="s2">
+  <p class="stop-tag center"><span>Stop 2 of 6</span>Plug two leaks</p>
+  <h2 class="center">Two leaks I found <em>as a paying user.</em></h2>
+  <p class="body center">Both cost revenue quietly. Both are small fixes. Flip each card to see the fix.</p>
+  <div class="leaks">
+    <article class="leak" id="leak1" data-v="now">
+      <header class="leak-head"><span class="leak-id">Leak 1</span><span class="leak-area">Referrals</span><span class="leak-status"><i></i><em class="st-now">Leaking</em><em class="st-fix">Fixed</em></span></header>
+      <h3>Twelve email addresses get anyone a <em>year of Pro, free.</em></h3>
+      <div class="screen">
+        <p class="screen-k">Pro months unlocked through my own referrals</p>
+        <div class="months" id="months" aria-hidden="true"></div>
+      </div>
+      <p class="lcap l-now">I referred addresses I own. Each one gave a free month of Pro, and two people can dictate on one account at once. I tested it on myself.</p>
+      <p class="lcap l-fix">One reward per device. The second claim says "This device has already used a referral month."</p>
+      <div class="cost"><div><span>What it costs</span><b>$144</b><small>of Pro, free, per person who games it</small></div><div><span>Fix effort</span><b>1 week</b><small>rules, not a rebuild</small></div></div>
+      <div class="ab" data-target="#leak1"><button type="button" data-v="now" aria-pressed="true">The leak</button><button type="button" data-v="fix" aria-pressed="false">My fix</button></div>
+      <ul class="fixes">
+        <li>One referral reward per device.</li>
+        <li>Pay the referrer after the friend really dictates, not at sign-up.</li>
+        <li>One live session per account, so a plan can't be shared.</li>
+      </ul>
+    </article>
+    <article class="leak" id="leak2" data-v="now">
+      <header class="leak-head"><span class="leak-id">Leak 2</span><span class="leak-area">Payments in India</span><span class="leak-status"><i></i><em class="st-now">Leaking</em><em class="st-fix">Fixed</em></span></header>
+      <h3>My UPI Autopay failed twice, and <em>Pro quietly lapsed.</em></h3>
+      <div class="screen">
+        <p class="screen-k">What happened to my payment</p>
+        <div class="upi" id="upi" aria-hidden="true"></div>
+      </div>
+      <p class="lcap l-now">Both times the mandate failed, nothing was charged, and nobody told me. A paying user lost without either side deciding it.</p>
+      <p class="lcap l-fix">The mandate fails, Flow retries and sends a one-tap pay link on WhatsApp, and Pro keeps running in the meantime.</p>
+      <div class="cost"><div><span>What it costs</span><b>₹3,840</b><small>a year, for every payer it drops</small></div><div><span>Fix effort</span><b>2 weeks</b><small>retries, grace period, a WhatsApp link</small></div></div>
+      <div class="ab" data-target="#leak2"><button type="button" data-v="now" aria-pressed="true">The leak</button><button type="button" data-v="fix" aria-pressed="false">My fix</button></div>
+      <ul class="fixes">
+        <li>Retry the mandate, plus a one-tap WhatsApp pay link before Pro ends.</li>
+        <li>A short grace period, so Pro runs while payment retries.</li>
+        <li>Track mandate success as its own step in the paid funnel.</li>
+      </ul>
+    </article>
+  </div>
+  <p class="aside center">The referral leak might be deliberate, since free months that turn into habits are cheap acquisition. Then it's worth measuring, not guessing.</p>
+</section>
+
+<section class="chapter ink" id="india" data-stop="3" data-say="s3">
+  <p class="stop-tag dark"><span>Stop 3 of 6</span>Win India</p>
+  <div class="split">
+    <div>
+      <h2>India is your #2 market. <em>It's still mostly free.</em></h2>
+      <div class="gap" id="gap" aria-label="India: 14% of downloads, about 2% of in-app revenue">
+        <div class="gap-row"><span>Downloads</span><i style="--w:100%"></i><b>14%</b></div>
+        <div class="gap-row rev"><span>Revenue</span><i style="--w:14.3%"></i><b>~2%</b></div>
+        <p class="src">India's share of Wispr Flow, Oct 2025–Apr 2026 · TechCrunch. India was growing 60–100% month over month, half on mobile, and 75% of Indian payers pick annual.</p>
+      </div>
+    </div>
+    <div>
+      <ol class="moves">
+        <li><span class="mv-n">1</span><div><b>First dictation in WhatsApp, in Hinglish.</b><span>India is half mobile and lives in personal apps. Activate people where they already type.</span><em class="mv-fx">Model: +12 pts India activation</em></div></li>
+        <li><span class="mv-n">2</span><div><b>Fix Autopay, then make annual the default.</b><span>75% of Indian buyers already pick annual. Once mandates stick, make it one tap.</span><em class="mv-fx">Model: +3 pts India paid conversion</em></div></li>
+        <li><span class="mv-n">3</span><div><b>Campus ambassadors.</b><span>You have a student plan but no ambassadors. Start with 50 colleges, paid per activated user.</span><em class="mv-fx">Model: +10K India installs a month</em></div></li>
+      </ol>
+      <p class="hedge">I could be wrong about willingness to pay outside the big cities. I'd test it against a holdout region before going national.</p>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="linkedin" data-stop="4" data-say="s4">
+  <p class="stop-tag"><span>Stop 4 of 6</span>Make LinkedIn a channel</p>
+  <div class="split">
+    <div>
+      <h2>Your buyers type on LinkedIn <em>all day.</em></h2>
+      <p class="body">Today Wispr Flow runs about 60 LinkedIn ads a month, against roughly 610 on Meta and 900 on Google, mostly boosting Tanay's posts. I'd turn LinkedIn into a channel, with its own format, creators and measurement.</p>
+      <ol class="moves light">
+        <li><span class="mv-n">1</span><div><b>The spoken post.</b><span>Creators publish a post they dictated and pin the original voice note. The format is the demo.</span></div></li>
+        <li><span class="mv-n">2</span><div><b>100 operator-creators, paid on activated installs.</b><span>PMs, recruiters, sales leaders and founders, through the Dub partner links you already use.</span><em class="mv-fx">Model: +20K installs a month outside India</em></div></li>
+        <li><span class="mv-n">3</span><div><b>Bundles and newsletters, a code per placement.</b><span>I built a 10-brand bundle where many brands redeem at 70–80%. Same discipline, measured weekly.</span></div></li>
+      </ol>
+    </div>
+    <div class="post" aria-label="Example of a spoken post">
+      <div class="post-head"><span class="av">PM</span><div><b>A product manager</b><small>Example of the format</small></div></div>
+      <p>I used to spend 40 minutes on a weekly update. This one took four. I said it out loud, walking to lunch.</p>
+      <p>The trick isn't speed. It's that I stopped editing while I was still thinking.</p>
+      <div class="note-player">
+        <button type="button" class="play" id="play" aria-label="Play the voice note"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path id="playIcon" fill="currentColor" d="M8 5v14l11-7z"/></svg></button>
+        <div class="np-wave" id="npWave" aria-hidden="true"></div>
+        <span class="np-time" id="npTime">0:11</span>
+        <audio id="voiceNote" src="media/voice-note.m4a" preload="metadata"></audio>
+      </div>
+      <p class="post-foot">Original voice note, dictated with Wispr Flow</p>
+    </div>
+  </div>
+</section>
+
+<section class="chapter sand" id="math" data-stop="5" data-say="s5">
+  <p class="stop-tag center"><span>Stop 5 of 6</span>Add up the math</p>
+  <h2 class="center">What the plan is worth, <em>in dollars.</em></h2>
+  <p class="body center">A model of one month of new installs, built on Wispr Flow's public numbers. Switch bets on and watch what each month's sign-ups turn into.</p>
+
+  <div class="ns" aria-label="North Star metric and its inputs">
+    <div class="ns-top"><span>North Star</span><b>Weekly active dictators</b><small>People who dictate on 3+ days a week. Habit is what Wispr Flow actually sells.</small></div>
+    <div class="ns-legs">
+      <div><span>Input 1</span><b>Activated installs</b><small>First dictation in week one</small></div>
+      <div><span>Input 2</span><b>Week-4 habit</b><small>Still dictating 3+ days a week</small></div>
+      <div><span>Input 3</span><b>Paid and staying paid</b><small>Conversion, minus failed payments</small></div>
+    </div>
+  </div>
+
+  <div class="model">
+    <div class="bets" id="bets"></div>
+    <div class="out">
+      <p class="o-k">Extra revenue a year, still paying after 12 months</p>
+      <p class="o-big" id="oBig">$0</p>
+      <p class="o-sub" id="oSub"></p>
+      <div class="funnel" id="funnel"></div>
+      <div class="o-row"><span>India's share of new revenue</span><b id="oIndia">1.2%</b></div>
+      <div class="o-bar" aria-hidden="true"><i id="oIndiaBar"></i></div>
+      <div class="o-btns"><button type="button" id="allOn" class="btn-mini light">Switch everything on</button><button type="button" id="allOff" class="btn-mini ghost">Reset</button></div>
+    </div>
+  </div>
+
+  <div class="rank-card">
+    <p class="a-title">Ranked: dollars per week of work <span class="a-sub">What I'd do first, second and third</span></p>
+    <ol class="ranked" id="ranked"></ol>
+  </div>
+
+  <details class="assume">
+    <summary><span class="a-title">The baseline behind it</span><span class="a-sub">Open to change any assumption</span></summary>
+    <div class="a-grid" id="dials"></div>
+    <p class="a-note">Public: 2.5M downloads in seven months (about 360K a month), India's 14% of downloads, 19% free-to-paid, about $12 a month globally, ₹320 a month annual in India, 70% still paying after 12 months. My estimates: activation rates, India's paid conversion, and every bet's effect. Each bet's effect is written on its switch, so you can argue with it.</p>
+  </details>
+</section>
+
+<section class="chapter paper" id="days" data-stop="6" data-say="s6">
+  <p class="stop-tag center"><span>Stop 6 of 6</span>The first year</p>
+  <h2 class="center">My first year, <em>from week one to month twelve.</em></h2>
+  <p class="body center">Fix the leaks in month one, prove the bets by day 90, scale the winners by month six, and open new revenue by month twelve.</p>
+
+  <div class="phases" id="phases">
+    <article class="phase" style="--c:var(--purple)">
+      <p class="ph-when">Days 1–30</p><h3>Fix and measure</h3>
+      <ul><li>Rebuild the funnel on your real data</li><li>Ship the cross-device welcome back</li><li>UPI retries and new referral rules</li></ul>
+      <p class="ph-goal"><span>Bar</span>Every leak closed, every estimate replaced</p>
+    </article>
+    <article class="phase" style="--c:var(--coral)">
+      <p class="ph-when">Days 31–90</p><h3>Prove the bets</h3>
+      <ul><li>Hinglish-in-WhatsApp test, with a holdout</li><li>10-creator LinkedIn pilot</li><li>Shareable recap card, 10 campus ambassadors</li></ul>
+      <p class="ph-goal"><span>Bar</span>+$2.6M a year in run-rate</p>
+    </article>
+    <article class="phase" style="--c:var(--green)">
+      <p class="ph-when">Months 4–6</p><h3>Scale the winners</h3>
+      <ul><li>WhatsApp-first onboarding for all of India</li><li>100 operator-creators, 50 colleges</li><li>Annual as the default once UPI sticks</li><li>Hire an India growth lead and a lifecycle marketer</li></ul>
+      <p class="ph-goal"><span>Bar</span>+$5M run-rate, India at 3% of revenue</p>
+    </article>
+    <article class="phase" style="--c:#3d6fd1">
+      <p class="ph-when">Months 7–12</p><h3>Open new revenue</h3>
+      <ul><li>Test India micro-plans at ₹10–20 a month, a price Wispr has floated publicly</li><li>A second Indian language after Hinglish</li><li>Turn creators' companies into Teams deals</li></ul>
+      <p class="ph-goal"><span>Bar</span>+$7M run-rate, India at 4% of revenue</p>
+    </article>
+  </div>
+
+  <h3 class="sub-h center">The first 30 days, <em>week by week</em></h3>
+  <div class="weeks">
+    <div class="week-track" aria-hidden="true"><i id="weekFill"></i><span class="week-blip" id="weekBlip"></span></div>
+    <div class="week-tabs" id="weekTabs" role="tablist" aria-label="Weeks"></div>
+    <div class="week-panel" id="weekPanel" role="tabpanel"></div>
+  </div>
+
+  <div class="score">
+    <h3>The one-year scoreboard</h3>
+    <p class="score-sub">What I'd want to be judged on. "Today" numbers are public or my estimates. The run-rate row adds up the bets from stop 5 as they ramp. India at 4% in year one also counts on the micro-plan test, which sits outside the model.</p>
+    <div class="score-table" role="table" aria-label="One-year scoreboard">
+      <div class="sr sh" role="row"><span role="columnheader">Metric</span><span role="columnheader">Today</span><span role="columnheader">Day 90</span><span role="columnheader">Month 6</span><span role="columnheader">Year 1</span></div>
+      <div class="sr hl" role="row"><span role="cell">Extra revenue a year from the plan</span><span role="cell" class="t-now">$0</span><span role="cell" class="t-goal">$2.6M</span><span role="cell" class="t-goal">$5M</span><span role="cell" class="t-goal">$7M+</span></div>
+      <div class="sr" role="row"><span role="cell">India's share of new revenue</span><span role="cell" class="t-now">~2%</span><span role="cell" class="t-goal">2.5%</span><span role="cell" class="t-goal">3%</span><span role="cell" class="t-goal">4%</span></div>
+      <div class="sr" role="row"><span role="cell">India week-1 activation</span><span role="cell" class="t-now">~40% <small>est.</small></span><span role="cell" class="t-goal">46%</span><span role="cell" class="t-goal">52%</span><span role="cell" class="t-goal">55%</span></div>
+      <div class="sr" role="row"><span role="cell">UPI mandate success</span><span role="cell" class="t-now">to measure</span><span role="cell" class="t-goal">95%</span><span role="cell" class="t-goal">97%</span><span role="cell" class="t-goal">98%</span></div>
+      <div class="sr" role="row"><span role="cell">Activated installs a month from LinkedIn creators</span><span role="cell" class="t-now">0</span><span role="cell" class="t-goal">2K</span><span role="cell" class="t-goal">10K</span><span role="cell" class="t-goal">20K</span></div>
+      <div class="sr" role="row"><span role="cell">Day-7 dictation, existing user on a new device</span><span role="cell" class="t-now">to measure</span><span role="cell" class="t-goal">+10 pts</span><span role="cell" class="t-goal">+12 pts</span><span role="cell" class="t-goal">+15 pts</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="receipts-sec" id="proof" data-say="proof">
+  <div class="sec-head">
+    <p class="kicker">Why me</p>
+    <h2>I've grown an audience business <em>from the inside.</em></h2>
+    <p class="body">Two years running growth for a B2C AI brand. Each card says what the number is, and what it taught me that applies to Wispr Flow.</p>
+  </div>
+  <div class="stats">
+    <article class="stat">
+      <p class="s-label">Company revenue</p>
+      <div class="viz donut" aria-hidden="true"><svg viewBox="0 0 42 42"><circle class="d-bg" cx="21" cy="21" r="15.9"/><circle class="d-fg" cx="21" cy="21" r="15.9"/></svg><span>1 in 5<br><small>dollars</small></span></div>
+      <p class="s-num"><b data-count="20" data-suffix="%">20%</b></p>
+      <p class="s-what">of company revenue came from a product I launched from zero.</p>
+      <p class="s-why"><span>For Wispr</span>I build things that pay, not just things that grow.</p>
+    </article>
+    <article class="stat">
+      <p class="s-label">Partner bundle redemption</p>
+      <div class="viz duo" aria-hidden="true"><div><i style="--h:10%"></i><span>0<br><small>brands</small></span></div><div class="now"><i style="--h:100%"></i><span>10<br><small>brands</small></span></div></div>
+      <p class="s-num"><b data-count="80" data-suffix="%">80%</b><small>top redemption</small></p>
+      <p class="s-what">I built a 10-brand bundle from zero. Many brands redeem at 70–80%.</p>
+      <p class="s-why"><span>For Wispr</span>A code per placement, measured weekly.</p>
+    </article>
+    <article class="stat">
+      <p class="s-label">Newsletter subscribers</p>
+      <div class="viz duo" aria-hidden="true"><div><i style="--h:58%"></i><span>140K<br><small>2 yrs ago</small></span></div><div class="now"><i style="--h:100%"></i><span>240K<br><small>today</small></span></div></div>
+      <p class="s-num"><b data-count="240" data-suffix="K">240K</b></p>
+      <p class="s-what">+100K opted-in readers in two years.</p>
+      <p class="s-why"><span>For Wispr</span>Owned audiences are the cheapest installs.</p>
+    </article>
+    <article class="stat">
+      <p class="s-label">YouTube and LinkedIn</p>
+      <div class="viz week" aria-hidden="true"><i style="--h:55%"></i><i style="--h:80%"></i><i style="--h:68%"></i><i style="--h:95%"></i><i style="--h:74%"></i><i style="--h:40%"></i><i style="--h:35%"></i><span>LinkedIn, Mon → Sun</span></div>
+      <p class="s-num"><b data-count="45" data-suffix="K">45K</b><small>YouTube subs</small></p>
+      <p class="s-what">Almost 7× from 6.6K, and 500K+ LinkedIn impressions a week.</p>
+      <p class="s-why"><span>For Wispr</span>That's where your buyers watch and type.</p>
+    </article>
+  </div>
+  <div class="quotes" aria-label="What people I've worked with say">
+    <div class="track">
+      <figure><blockquote>"If you're looking for a hands-on PM, look no further."</blockquote><figcaption>Rahul Joshi · VP, Technical Product Manager, JPMorganChase</figcaption></figure>
+      <figure><blockquote>"I was impressed with the website teardown he did for me."</blockquote><figcaption>Akshay Datt · Founder, Unnati</figcaption></figure>
+      <figure><blockquote>"Critical suggestions and enhancements to improve their onboarding and overall user experience."</blockquote><figcaption>Binod Karki · Executive Director of Technology, Virtuosway</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="chapter ink" id="interview" data-say="interview">
+  <div class="interview">
+    <h2>Interview me. <em>Pick a question.</em></h2>
+    <p class="body center">The eight questions I'd ask if I were hiring me. Tap one.</p>
+    <div class="chat" id="chat" aria-live="polite">
+      <div class="msg a"><span class="who">AS</span><p>Hi Tanay. Pick any question below. Each answer takes about 15 seconds to read.</p></div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <p class="asked" id="asked">0 of 8 answered</p>
+    <p class="live-cta">Want to ask your own? <a href="mailto:singhashutosh060@gmail.com?subject=Let's%20talk%20about%20Head%20of%20Growth">Email me for 30 minutes</a></p>
+  </div>
+</section>
+
+<section class="chapter" id="gaps" data-say="gaps">
+  <h2 class="center">What I haven't <em>done yet.</em></h2>
+  <div class="gaps">
+    <article><b>Millions a month in paid media</b><p>My scale is organic, creator-led and partnerships. I'd own the decisions and lean on your paid leads for platform depth.</p></article>
+    <article><b>Leading senior specialists</b><p>I run content operations in an eight-person team. Leading experts is a different job, and I'd set a 90-day bar to be judged on.</p></article>
+    <article><b>San Francisco</b><p>I'm in India. Your posting says you sponsor H-1B and O-1. Until then, I'm on the ground in your #2 market.</p></article>
+  </div>
+</section>
+
+<section class="close" data-say="close">
+  <h2>If you got this far, say <em>“hire him”</em> into Wispr Flow.</h2>
+  <button type="button" class="me-play dark" id="meClose" data-clip="close" hidden><span class="me-ic"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span><span class="me-t">A last word from me<small>15 seconds</small></span></button>
+  <p><a href="mailto:singhashutosh060@gmail.com">singhashutosh060@gmail.com</a><span>·</span><a href="https://www.linkedin.com/in/singhashutosh05/" target="_blank" rel="noopener">LinkedIn</a><span>·</span>India</p>
+</section>
+</main>
+
+<footer class="receipts">
+  <p>Sources: my own Wispr Flow emails (monthly recaps Feb–Apr, lifecycle emails Sep 2026), <a href="https://wisprflow.ai/post/series-b" target="_blank" rel="noopener">Wispr Flow's Series B post</a>, <a href="https://techcrunch.com/2026/05/09/voice-ai-in-india-is-hard-wispr-flow-is-betting-on-it-anyway/" target="_blank" rel="noopener">TechCrunch on India</a>, <a href="https://www.postbeam.ai/blog/how-wisprflow-grows" target="_blank" rel="noopener">Postbeam's growth teardown</a> and <a href="https://jobs.ashbyhq.com/wispr-flow/365a017d-49e7-41cc-9b7c-e2834b86b813" target="_blank" rel="noopener">the job posting</a>. Model effects are my estimates and say so.</p>
+  <p>An application by Ashutosh Singh. Not affiliated with Wispr. Spider-Man is a Marvel character; this is an unofficial fan illustration.</p>
+</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
