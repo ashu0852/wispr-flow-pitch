@@ -457,14 +457,6 @@ button{font:inherit;color:inherit}
 .av{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--lav);color:var(--purple);font-weight:600;font-size:14px}
 .post-head b{display:block;font-size:15px}.post-head small{color:var(--muted);font-size:13px}
 .post p+p{margin-top:12px}
-.note-player{display:flex;align-items:center;gap:12px;margin-top:20px;background:#f5f1fb;border-radius:14px;padding:10px 14px}
-.play{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;border:0;background:var(--purple);color:#fff;cursor:pointer;transition:transform var(--mid) var(--ease)}
-.play:hover{transform:scale(1.08)}
-.np-wave{flex:1;display:flex;align-items:center;gap:2px;height:30px;cursor:pointer}
-.np-wave i{flex:1;border-radius:2px;background:#886dc244;transition:background .2s}
-.np-wave i.on{background:var(--purple)}
-.np-time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:32px;text-align:right}
-.post-foot{margin-top:14px;font-size:13px;color:var(--purple)}
 
 /* ---------- stop 5: weeks ---------- */
 .weeks{margin-top:48px;max-width:1040px!important}
@@ -633,8 +625,6 @@ button{font:inherit;color:inherit}
 .link{width:64px}
 .hero-copy{max-width:42rem}
 .intro,.body{font-size:clamp(17px,1.25vw,20px)}
-.np-wave{min-width:0;touch-action:pan-y}
-.np-wave:focus-visible{outline:2px solid var(--purple);outline-offset:5px}
 .score-table:focus-visible{outline:2px solid var(--lav);outline-offset:5px}
 .slider input:focus-visible{outline:2px solid var(--purple);outline-offset:6px}
 .close p{overflow-wrap:anywhere}

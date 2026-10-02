@@ -75,15 +75,10 @@ const sizes = [
       await page.waitForFunction(n => document.querySelectorAll('#chat .msg.a').length === n+2 && !document.querySelector('#chat .dots'), i);
     }
     assert.equal(await page.locator('#chat .msg.q').count(), 8);
-    await page.locator('#play').click();
-    await page.waitForFunction(() => { const a=document.querySelector('#voiceNote'); return !a.paused && a.readyState >= 2 && a.seekable.length; });
-    await page.locator('#play').click();
-    await page.locator('#npWave').focus(); await page.keyboard.press('ArrowRight');
-    await page.waitForFunction(() => document.querySelector('#voiceNote').currentTime >= 1);
     await page.evaluate(fs.readFileSync(require.resolve('axe-core/axe.min.js'),'utf8'));
     const a11y = await page.evaluate(async () => (await axe.run(document, {runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).violations.map(v => ({id:v.id,nodes:v.nodes.map(n=>n.target)})));
     assert.deepEqual(a11y, [], 'Accessibility violations');
-    console.log('PASS calculator, all interview answers, keyboard tabs, game, audio, and automated WCAG checks');
+    console.log('PASS calculator, all interview answers, keyboard tabs, game, and automated WCAG checks');
     // Verify policy enforcement with a harmless injected inline script and event handler.
     const policy = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
     assert.ok(policy.includes("script-src 'self'")); assert.ok(!policy.includes("script-src 'self' 'unsafe-inline'"));

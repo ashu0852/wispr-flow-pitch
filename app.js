@@ -406,35 +406,6 @@ function renderUPI() {
 renderUPI();
 onView($('#upi'), renderUPI, .6);
 
-/* ---------- Voice note player ---------- */
-const audio = $('#voiceNote'), wave = $('#npWave'), playBtn = $('#play');
-const NBARS = 46;
-const heights = Array.from({length: NBARS}, (_, i) => 30 + Math.round(60 * Math.abs(Math.sin(i * 1.7) * Math.cos(i * .45))));
-wave.innerHTML = heights.map(h => `<i style="height:${h}%"></i>`).join('');
-const fmtTime = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-const PLAY = 'M8 5v14l11-7z', PAUSE = 'M7 5h4v14H7zM13 5h4v14h-4z';
-function paint() {
-  const p = audio.duration ? audio.currentTime / audio.duration : 0;
-  $$('#npWave i').forEach((b, i) => b.classList.toggle('on', i / NBARS < p));
-  wave.setAttribute('aria-valuenow', Math.round(p * 100));
-  wave.setAttribute('aria-valuetext', `${fmtTime(audio.currentTime)} of ${fmtTime(audio.duration || 11)}`);
-  $('#npTime').textContent = fmtTime(audio.duration && !audio.paused ? audio.currentTime : (audio.duration || 11));
-}
-const playNote = () => audio.play().catch(() => { playBtn.setAttribute('aria-label', 'Audio unavailable. Try again.'); });
-playBtn.onclick = () => { audio.paused ? playNote() : audio.pause(); };
-audio.onplay = () => { $('#playIcon').setAttribute('d', PAUSE); playBtn.setAttribute('aria-label', 'Pause the voice note'); };
-audio.onpause = audio.onended = () => { $('#playIcon').setAttribute('d', PLAY); playBtn.setAttribute('aria-label', 'Play the voice note'); paint(); };
-audio.ontimeupdate = paint;
-audio.onloadedmetadata = paint;
-wave.onclick = e => { if (!audio.duration) return; const r = wave.getBoundingClientRect(); audio.currentTime = clamp((e.clientX - r.left) / r.width, 0, 1) * audio.duration; if (audio.paused) playNote(); };
-
-wave.addEventListener('keydown', e => {
-  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key) || !Number.isFinite(audio.duration)) return;
-  e.preventDefault();
-  audio.currentTime = e.key === 'Home' ? 0 : e.key === 'End' ? audio.duration : clamp(audio.currentTime + (e.key === 'ArrowRight' ? 1 : -1), 0, audio.duration);
-  paint();
-});
-
 /* =========================================================
    The growth model: one month of new installs, bets switched on or off
    ========================================================= */

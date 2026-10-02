@@ -9,15 +9,15 @@ These include layout equivalents for laptop zoom at 80%, 125%, 150%, 200% and 30
 - No page or tested card/text overflow in the matrix. The narrow scoreboard intentionally scrolls horizontally and is keyboard focusable.
 - Six route stops occupy six desktop columns and stack on narrow windows.
 - Reviewed desktop, 80%-equivalent hero/route, and mobile calculator screenshots.
-- Spider-Man narration, greeting, voice toggle and speech bubbles removed. The personal voice-note example remains user initiated.
+- Spider-Man narration, greeting, voice toggle and speech bubbles removed. The personal voice-note player and its recording were also removed from the deployed site.
 - Silent guide navigation, landing, resize cancellation, safe placement, and motion pause tested. He hides when there is no clear space and while the viewport is scrolling.
 
 ## Functional and accessibility checks
 
 - Filler-word game, before/after controls, seven model switches, reset and extreme India-share inputs.
 - All eight interview questions and responses.
-- Week tabs with arrow/Home/End keys; focusable transcript, audio seek control and scoreboard.
-- Voice-note play/pause and keyboard seeking.
+- Week tabs with arrow/Home/End keys; focusable transcript and scoreboard.
+- Product-manager example remains text-only; there are no audio players on the page.
 - Internal anchor destinations, local resource responses and no unexpected external resource requests.
 - Reduced-motion and no-JavaScript readable-content fallback.
 - Automated axe-core WCAG 2 A/AA and 2.1 AA checks: zero reported violations in the tested states. This does not certify universal accessibility.
@@ -26,7 +26,7 @@ These include layout equivalents for laptop zoom at 80%, 125%, 150%, 200% and 30
 ## Security and privacy
 
 - HTTPS enforced by GitHub Pages; the live host supplies HSTS.
-- Early Content Security Policy restricts scripts, fonts, media, images and connections to this origin; objects, frames, workers, forms and base-URL changes are blocked.
+- Early Content Security Policy restricts scripts, fonts, images and connections to this origin; media, objects, frames, workers, forms and base-URL changes are blocked.
 - Harmless injection tests confirm inline scripts and inline event handlers are blocked.
 - Styles allow inline declarations because the SVG animation and charts set styles dynamically; script execution does not allow `unsafe-inline` or `unsafe-eval`.
 - Fonts are self-hosted, removing the Google Fonts runtime connection. No analytics, cookies, local-storage tracking, remote scripts, authentication, payment or data-submission endpoints.
