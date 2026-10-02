@@ -608,8 +608,7 @@ button{font:inherit;color:inherit}
 .bar{padding-inline:max(var(--pad),calc((100% - var(--max)) / 2));gap:clamp(10px,1.4vw,20px)}
 .bar .name,.bar .talk,.bar-nav a{white-space:nowrap;flex-shrink:0}
 .role{min-width:0;white-space:nowrap}
-.buddy{transition:opacity .2s;touch-action:manipulation}
-.buddy.parked{opacity:0;pointer-events:none;visibility:hidden}
+.buddy{touch-action:manipulation}
 .buddy:is(.shoot,.swing,.land){pointer-events:none}
 .r-stop[aria-current=step]{box-shadow:0 0 0 4px var(--lav);background:var(--green);color:#fff}
 .skip-link{position:fixed;top:8px;left:8px;z-index:100;padding:10px 16px;background:var(--ink);color:#fff;transform:translateY(-150%);border-radius:8px}
@@ -678,5 +677,4 @@ button{font:inherit;color:inherit}
 
 .phase:nth-child(2) .ph-when{color:#a93a25}
 
-.buddy.obscured{opacity:0;pointer-events:none;visibility:hidden}
 html:not(.js) :is(.buddy,.rail,.motion-toggle){display:none}

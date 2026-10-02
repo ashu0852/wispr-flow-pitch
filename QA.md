@@ -10,7 +10,7 @@ These include layout equivalents for laptop zoom at 80%, 125%, 150%, 200% and 30
 - Six route stops occupy six desktop columns and stack on narrow windows.
 - Reviewed desktop, 80%-equivalent hero/route, and mobile calculator screenshots.
 - Spider-Man narration, greeting, voice toggle and speech bubbles removed. The personal voice-note player and its recording were also removed from the deployed site.
-- Silent guide navigation, landing, resize cancellation, safe placement, and motion pause tested. He hides when there is no clear space and while the viewport is scrolling.
+- Silent guide navigation, landing, resize cancellation, safe placement, and motion pause tested. He remains visible during scrolling and uses the least obstructive screen-edge position when no empty space exists. Scroll events trigger web swings toward the current section; subsequent destinations are coalesced while a swing finishes.
 
 ## Functional and accessibility checks
 

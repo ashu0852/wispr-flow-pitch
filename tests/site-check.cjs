@@ -104,6 +104,28 @@ const sizes = [
     assert.equal(await motion.locator('#buddy').evaluate(el => el.matches('.shoot,.swing,.land')), false);
     assert.deepEqual(motionErrors, []);
     await motion.close();
+    for (const width of [390,1366,1800]) {
+      const scrolling = await browser.newPage({viewport:{width,height:900}});
+      await scrolling.goto(base);
+      const result = await scrolling.evaluate(() => new Promise(resolve => {
+        const failures=[], positions=[], start=performance.now();let lastScroll=0, webFrames=0;
+        function sample(now) {
+          if(now-start>300 && now-lastScroll>90){window.scrollBy({top:100,behavior:'instant'});lastScroll=now;}
+          const buddy=document.querySelector('#buddy'), r=buddy.getBoundingClientRect(), css=getComputedStyle(buddy);
+          if(css.display==='none'||css.visibility==='hidden'||Number(css.opacity)<.99)failures.push('hidden');
+          if(r.left < -1 || r.right > innerWidth+1 || r.top < 63 || r.bottom > innerHeight+1)failures.push('offscreen');
+          if(document.querySelector('#webA').classList.contains('on'))webFrames++;
+          positions.push([r.x,r.y]);
+          if(now-start<4200)requestAnimationFrame(sample);else resolve({failures,webFrames,travel:Math.max(...positions.map(p=>p[0]))-Math.min(...positions.map(p=>p[0]))});
+        }requestAnimationFrame(sample);
+      }));
+      assert.deepEqual(result.failures, [], `${width}: guide must stay visible and on screen throughout scrolling`);
+      assert.ok(result.webFrames > 0, `${width}: scroll must trigger a web shot`);
+      assert.ok(result.travel > 10, `${width}: guide must move during scrolling`);
+      assert.equal(await scrolling.locator('audio,.note-player,#voiceNote').count(),0);
+      await scrolling.close();
+    }
+    console.log('PASS continuous-scroll guide visibility, web shots, and movement on mobile and laptops');
     const noJS=await browser.newPage({javaScriptEnabled:false});await noJS.goto(base);
     assert.ok(await noJS.locator('h1').isVisible());assert.ok(await noJS.locator('noscript').isVisible());await noJS.close();
     console.log('PASS silent guide landing/navigation, resize, pause, and no-JavaScript fallback');

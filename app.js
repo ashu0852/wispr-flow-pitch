@@ -18,7 +18,7 @@ const facingLeft = () => face.classList.contains('left');
 // Wrist (0, 25), rotated -166° from the shoulder at (65, 49).
 const hand = () => ({x: (facingLeft() ? .28952 : .71048) * W, y: .20619 * H});
 const setPivot = () => { const h = hand(); buddy.style.transformOrigin = `${h.x}px ${h.y}px`; };
-const B = {x: innerWidth - W - 20, y: innerHeight - H - 30, rot: 0, rv: 0, sway: 0, flight: null, moving: false, lastScroll: 0, token: 0};
+const B = {x: innerWidth - W - 20, y: innerHeight - H - 30, rot: 0, rv: 0, sway: 0, flight: null, moving: false, lastScroll: 0, token: 0, pendingMove: null, routing: false};
 setPivot();
 
 buddy.onclick = () => {
@@ -34,7 +34,7 @@ function boxEmpty(x, y, blocked = obstacles()) {
   return x >= 8 && x + W <= innerWidth - 8 && y >= BAR + 12 && y + H <= innerHeight - 8 && !blocked.some(r => intersects({x, y}, r));
 }
 const wideRail = matchMedia('(min-width: 1200px)');
-function pickSpot(mode) {
+function pickSpot(mode, section = null) {
   const blocked = obstacles(), candidates = [], step = 56;
   const edge = wideRail.matches ? 58 : 8;
   // Prefer the outer gutters, keeping the text and controls clear.
@@ -42,16 +42,19 @@ function pickSpot(mode) {
   for (let x = edge + step; x < innerWidth - W - step; x += step) columns.push(x);
   for (const x of columns) for (let y = BAR + 12; y <= innerHeight - H - 8; y += step)
     if (boxEmpty(x, y, blocked)) candidates.push({x, y});
-  const parked = !candidates.length;
-  buddy.classList.toggle('parked', parked);
-  buddy.tabIndex = parked ? -1 : 0;
-  buddy.setAttribute('aria-hidden', String(parked));
-  if (parked) return null;
   const distance = p => Math.hypot(p.x - B.x, p.y - B.y);
+  const heading = section?.querySelector('h2, h1') || section;
+  const desiredY = heading ? clamp(heading.getBoundingClientRect().top, BAR + 16, innerHeight - H - 16) : innerHeight * .45;
+  if (!candidates.length) {
+    // On a dense mobile screen, keep him visible at the edge with the least overlap.
+    const corners = [8, innerWidth - W - 8].flatMap(x => [BAR + 16, desiredY, innerHeight - H - 12].map(y => ({x, y})));
+    const overlap = p => blocked.reduce((total, r) => total + Math.max(0, Math.min(p.x + W, r.right) - Math.max(p.x, r.left)) * Math.max(0, Math.min(p.y + H, r.bottom) - Math.max(p.y, r.top)), 0);
+    return corners.sort((a, b) => overlap(a) - overlap(b) || (mode === 'near' ? distance(a) - distance(b) : Math.abs(a.y - desiredY) - Math.abs(b.y - desiredY)))[0];
+  }
   if (mode === 'near') return candidates.sort((a, b) => distance(a) - distance(b))[0];
   const otherSide = candidates.filter(p => (p.x + W / 2 > innerWidth / 2) !== (B.x + W / 2 > innerWidth / 2));
   const pool = otherSide.length ? otherSide : candidates;
-  return pool[Math.floor(Math.random() * pool.length)];
+  return pool.sort((a, b) => Math.abs(a.y - desiredY) - Math.abs(b.y - desiredY) || distance(b) - distance(a))[0];
 }
 
 /* --- webs --- */
@@ -74,6 +77,11 @@ function splat(x, y, small = false) {
 }
 /* --- motion --- */
 function render() {
+  // Clamp the rotated footprint, not just the unrotated box, to the visible screen.
+  const pivot = hand(), angle = B.rot * Math.PI / 180, c = Math.cos(angle), n = Math.sin(angle);
+  const corners = [[0,0],[W,0],[0,H],[W,H]].map(([x,y]) => ({x:pivot.x + (x-pivot.x)*c - (y-pivot.y)*n, y:pivot.y + (x-pivot.x)*n + (y-pivot.y)*c}));
+  B.x = clamp(B.x, 8 - Math.min(...corners.map(p=>p.x)), innerWidth - 8 - Math.max(...corners.map(p=>p.x)));
+  B.y = clamp(B.y, BAR + 8 - Math.min(...corners.map(p=>p.y)), innerHeight - 8 - Math.max(...corners.map(p=>p.y)));
   buddy.style.transform = `translate(${B.x}px, ${B.y}px) rotate(${B.rot.toFixed(2)}deg)`;
 }
 const smooth = p => p * p * p * (p * (p * 6 - 15) + 10);
@@ -133,7 +141,7 @@ function swingTo(target) {
         const k = smooth((elapsed - aim) / shoot), w = wrist();
         drawWeb(w.x + (A.x - w.x) * k, w.y + (A.y - w.y) * k, w.x, w.y, 10 * (1 - k));
       } else if (elapsed < aim + shoot + duration) {
-        if (!attached) { attached = true; splat(A.x, A.y); buddy.classList.add('swing'); if (performance.now() - B.lastScroll >= 140) buddy.classList.remove('obscured'); }
+        if (!attached) { attached = true; splat(A.x, A.y); buddy.classList.add('swing'); }
         const p = (elapsed - aim - shoot) / duration, e = smooth(p), arc = Math.sin(Math.PI * e);
         B.x = S.x + dx * e;
         B.y = S.y + dy * e + dip * arc;
@@ -184,53 +192,55 @@ let physicsTime = performance.now();
 })(physicsTime);
 render();
 
-// Wait until the page stops scrolling, so Spider-Man judges the space it will actually stand in.
-async function settled() { while (performance.now() - B.lastScroll < 140) await sleep(40); }
-async function goTo(mode) {
-  await settled();
-  await swingTo(pickSpot(mode));
-  await settled();
-  if (!boxEmpty(B.x, B.y)) await swingTo(pickSpot('near'));
-  buddy.classList.toggle('obscured', !boxEmpty(B.x, B.y));
-}
-
-// Follow the current section silently. The numbered rail remains keyboard accessible.
+// Keep only the latest destination while a flight is in progress; never hide the guide.
 let ready = false;
-const sectionIO = new IntersectionObserver(entries => entries.forEach(e => {
-  if (!e.isIntersecting || !ready || B.section === e.target.dataset.guide) return;
-  B.section = e.target.dataset.guide;
-  goTo('far');
-}), {rootMargin: '-40% 0px -40% 0px'});
-$$('[data-guide]').forEach(s => sectionIO.observe(s));
-setTimeout(() => { ready = true; goTo('far'); }, reduce ? 100 : 1400);
+const guideSections = $$('[data-guide]');
+function visibleSection() {
+  return guideSections.find(s => { const r = s.getBoundingClientRect(); return r.top <= innerHeight * .5 && r.bottom > innerHeight * .5; }) || guideSections[0];
+}
+async function goTo(mode, section = visibleSection()) {
+  B.pendingMove = {mode, section};
+  if (B.routing) return;
+  B.routing = true;
+  try {
+    while (B.pendingMove) {
+      const next = B.pendingMove; B.pendingMove = null;
+      await swingTo(pickSpot(next.mode, next.section));
+    }
+  } finally { B.routing = false; }
+}
+setTimeout(() => { ready = true; B.section = visibleSection(); goTo('far', B.section); }, reduce ? 100 : 1000);
 
-// Scrolling: Spider-Man hangs from a web and sways with your scroll speed, then swings clear the moment you stop.
-let scrollT = 0, lastY = scrollY;
+// Start the web shot during scrolling, then follow the latest section when the flight ends.
+let scrollFrame = 0, lastMove = -Infinity, lastY = scrollY;
 addEventListener('scroll', () => {
-  const dv = scrollY - lastY; lastY = scrollY;
   B.lastScroll = performance.now();
-  buddy.classList.add('obscured');
-  if (!B.moving && !reduce) {
-    B.hanging = true; buddy.classList.add('hang');
-    B.sway = clamp(B.sway - dv * .6, -38, 38);
-  }
-  clearTimeout(scrollT);
-  scrollT = setTimeout(() => {
-    B.hanging = false; buddy.classList.remove('hang');
-    if (!B.moving) { webOff(); goTo('near'); }
-  }, 140);
+  if (scrollFrame) return;
+  scrollFrame = requestAnimationFrame(() => {
+    scrollFrame = 0;
+    const section = visibleSection(), changed = section !== B.section;
+    if (ready && (changed || performance.now() - lastMove > 1000 && Math.abs(scrollY - lastY) > 60)) {
+      B.section = section; lastMove = performance.now(); lastY = scrollY;
+      goTo('far', section);
+    }
+  });
 }, {passive: true});
-// Content can slide in after Spider-Man lands (reveal animations), so keep checking.
+// If content changes around him, move to a better spot without disappearing.
 setInterval(() => {
-  if (B.moving || B.hanging || document.hidden || performance.now() - B.lastScroll < 300) return;
-  if (buddy.classList.contains('parked') || !boxEmpty(B.x, B.y)) goTo('near');
-}, 1000);
-// Every few seconds, swing somewhere new.
-if (!reduce) setInterval(() => {
-  if (B.moving || reduce || document.hidden || performance.now() - B.lastScroll < 900) return;
+  if (!ready || B.moving || B.routing || document.hidden || performance.now() - B.lastScroll < 1000) return;
+  if (!boxEmpty(B.x, B.y)) {
+    const target = pickSpot('near');
+    if (Math.hypot(target.x - B.x, target.y - B.y) > 12) goTo('near');
+  }
+}, 2000);
+setInterval(() => {
+  if (!ready || B.moving || B.routing || reduce || document.hidden || performance.now() - B.lastScroll < 1200) return;
   goTo('far');
 }, 6500);
-addEventListener('resize', () => { buddy.classList.add('obscured'); B.token++; W = buddy.offsetWidth; H = buddy.offsetHeight; setPivot(); B.x = clamp(B.x, 8, innerWidth - W - 8); B.y = clamp(B.y, BAR + 8, innerHeight - H - 8); render(); measureRail(); goTo('near'); });
+addEventListener('resize', () => {
+  B.token++; W = buddy.offsetWidth; H = buddy.offsetHeight; setPivot();
+  render(); measureRail(); if (ready) goTo('near');
+});
 
 /* --- progress rail (desktop) --- */
 const stops = $$('[data-stop]');
