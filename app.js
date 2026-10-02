@@ -1,41 +1,16 @@
+document.documentElement.classList.add('js');
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+let reduce = motionPreference.matches;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-const store = {get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} }};
-
 /* Top bar gets a hairline once you scroll */
 addEventListener('scroll', () => $('.bar').classList.toggle('scrolled', scrollY > 8), {passive: true});
 
-/* =========================================================
-   Spider-Man: wanders into empty space, and talks you through the page
-   ========================================================= */
-const LINES = {
-  hello: "Hi Tanay! I'm Spider-Man. Follow me, and I'll show you Ashutosh's growth plan!",
-  today: "First, the starting point. People love Flow. The money leaks after the download.",
-  game: "Quick game! Zap the filler words, just like Flow does.",
-  route: "Here's the whole route. Six stops. Stick with me!",
-  s1: "Stop one! What Ashutosh noticed as a paying user.",
-  s2: "Stop two! Two leaks. Flip the cards to see the fix.",
-  s3: "Stop three! India. Tons of downloads, tiny revenue.",
-  s4: "Stop four! LinkedIn. Where your buyers type all day.",
-  s5: "Stop five! The math. Flip the switches and watch the money move!",
-  s6: "Stop six! The whole first year, from week one to month twelve.",
-  proof: "Why him? He's grown this kind of thing before.",
-  interview: "Interview time! Pick a question, any question.",
-  gaps: "The honest bit. What he hasn't done yet.",
-  close: "That's the whole route! Your move, Tanay.",
-  win: "Spotless! That's the job. Find the friction, and zap it!",
-  allon: "Everything on! That's the whole plan, in dollars.",
-  fun1: "He dictated seventy thousand nine hundred words in four months. I counted!",
-  fun2: "A hundred and thirty four words a minute. I can barely keep up!",
-  fun3: "He found the referral leak by testing it on himself. Sneaky!",
-  fun4: "Psst. The math is at stop five. That's the good stuff.",
-};
-const FUN = ['fun1', 'fun2', 'fun3', 'fun4'];
-const buddy = $('#buddy'), bubble = $('#bubble'), face = $('.b-face'), webA = $('#webA'), webB = $('#webB'), splats = $('#splats');
+/* Silent Spider-Man guide. No speech synthesis, narration, or tracking. */
+const buddy = $('#buddy'), face = $('.b-face'), webA = $('#webA'), webB = $('#webB'), splats = $('#splats');
 const BAR = 64;
 // Spider-Man's size comes from CSS (bigger on desktop). The web-shooter hand is the pivot for every swing.
 let W = buddy.offsetWidth, H = buddy.offsetHeight;
@@ -43,138 +18,39 @@ const facingLeft = () => face.classList.contains('left');
 // Wrist (0, 25), rotated -166° from the shoulder at (65, 49).
 const hand = () => ({x: (facingLeft() ? .28952 : .71048) * W, y: .20619 * H});
 const setPivot = () => { const h = hand(); buddy.style.transformOrigin = `${h.x}px ${h.y}px`; };
-const B = {x: innerWidth - W - 20, y: innerHeight - H - 30, rot: 0, rv: 0, sway: 0, flight: null, moving: false, talking: false, lastScroll: 0, token: 0};
+const B = {x: innerWidth - W - 20, y: innerHeight - H - 30, rot: 0, rv: 0, sway: 0, flight: null, moving: false, lastScroll: 0, token: 0};
 setPivot();
 
-/* --- my own voice (recordings in media/me/, buttons appear only when a file exists) --- */
-const ME = {};
-let meAudio = null;
-const meBusy = () => meAudio && !meAudio.paused;
-async function probe(name) { try { return (await fetch(`media/me/${name}.m4a`, {method: 'HEAD'})).ok; } catch { return false; } }
-['intro', 'close', ...Array.from({length: 8}, (_, i) => 'q' + i)].forEach(async n => {
-  ME[n] = await probe(n);
-  const b = $(`.me-play[data-clip="${n}"]`);
-  if (b && ME[n]) b.hidden = false;
-});
-function playMe(name, btn) {
-  stopVoice();
-  if (meAudio) meAudio.pause();
-  $$('.me-play.playing').forEach(b => b.classList.remove('playing'));
-  meAudio = new Audio(`media/me/${name}.m4a`);
-  if (btn) { btn.classList.add('playing'); meAudio.onended = meAudio.onpause = () => btn.classList.remove('playing'); }
-  meAudio.play().catch(() => {});
-}
-$$('.me-play').forEach(b => b.onclick = () => { if (b.classList.contains('playing')) { meAudio.pause(); return; } playMe(b.dataset.clip, b); });
-
-/* --- Spider-Man's voice --- */
-const voice = {on: (store.get('spiderManVoice') ?? store.get('blipVoice')) !== 'off', unlocked: false, audio: null};
-const sndBtn = $('#snd');
-const paintSnd = () => { sndBtn.setAttribute('aria-pressed', voice.on); sndBtn.querySelector('span').textContent = voice.on ? "Spider-Man's voice on" : "Spider-Man's voice off"; };
-paintSnd();
-let ttsVoice = null;
-function pickVoice() {
-  const vs = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang));
-  const want = ['Google US English', 'Samantha (Enhanced)', 'Ava (Premium)', 'Ava (Enhanced)', 'Samantha', 'Karen', 'Moira', 'Tessa'];
-  ttsVoice = want.map(n => vs.find(v => v.name === n)).find(Boolean) || vs[0] || null;
-}
-if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
-function stopVoice() {
-  if (voice.audio) { voice.audio.pause(); voice.audio = null; }
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
-}
-function talkOn() { B.talking = true; buddy.classList.add('talk'); }
-function talkOff(hideIn = 1400) {
-  buddy.classList.remove('talk');
-  clearTimeout(B.hide);
-  B.hide = setTimeout(() => { bubble.classList.remove('show'); B.talking = false; }, hideIn);
-}
-// Recorded clips live in media/blip/<key>.m4a. If one is missing, the browser's own voice reads the line, pitched up.
-function voiceLine(key, text) {
-  if (!voice.on || !voice.unlocked || meBusy()) return false;
-  stopVoice();
-  let fell = false;
-  const fallback = () => {
-    if (fell || !('speechSynthesis' in window)) return; fell = true;
-    const u = new SpeechSynthesisUtterance(text);
-    if (ttsVoice) u.voice = ttsVoice;
-    u.pitch = 1.6; u.rate = 1.1;
-    u.onstart = talkOn; u.onend = () => talkOff(); u.onerror = () => talkOff();
-    speechSynthesis.speak(u);
-  };
-  const a = new Audio(`media/blip/${key}.m4a`);
-  voice.audio = a;
-  a.onplay = talkOn;
-  a.onended = () => talkOff();
-  a.onerror = fallback;
-  a.play().catch(fallback);
-  return true;
-}
-function say(key, {voiced = true} = {}) {
-  const text = LINES[key] || key;
-  buddy.classList.remove('wave'); void buddy.offsetWidth; buddy.classList.add('wave');
-  setTimeout(() => buddy.classList.remove('wave'), 1300);
-  bubble.textContent = text;
-  bubble.classList.add('show');
-  placeBubble();
-  clearTimeout(B.hide);
-  if (!(voiced && voiceLine(key, text))) {
-    talkOn();
-    B.hide = setTimeout(() => { buddy.classList.remove('talk'); bubble.classList.remove('show'); B.talking = false; }, 2400 + text.length * 40);
-  }
-}
-// Browsers only allow sound after the visitor touches the page.
-addEventListener('pointerdown', () => { voice.unlocked = true; }, {once: true, capture: true});
-addEventListener('keydown', () => { voice.unlocked = true; }, {once: true, capture: true});
-sndBtn.onclick = () => {
-  voice.on = !voice.on; voice.unlocked = true;
-  store.set('spiderManVoice', voice.on ? 'on' : 'off'); paintSnd();
-  if (voice.on) say(B.section || 'hello'); else stopVoice();
-};
-
-/* --- click for a swing and a fun fact --- */
-let funI = 0;
 buddy.onclick = () => {
-  voice.unlocked = true;
-  swingTo(pickSpot('far'));
-  say(FUN[funI++ % FUN.length]);
+  const sections = $$('[data-stop], #interview');
+  const next = sections.find(s => s.getBoundingClientRect().top > BAR + 28) || $('#top');
+  next.scrollIntoView({behavior: reduce ? 'instant' : 'smooth'});
 };
 
-/* --- finding empty space --- */
-const BLOCK = 'a,button,input,svg,img,video,audio,canvas,label,output,summary,i,b,em,span,p,h1,h2,h3,li,blockquote,figcaption,small,strong,dd,dt,s,ol,ul,figure,details';
-function emptyAt(x, y) {
-  const el = document.elementsFromPoint(x, y).find(e => !e.closest('#buddy,#bubble,#rail,#webs') && !e.classList.contains('spark'));
-  if (!el || el.closest('.bar,footer')) return false;
-  if (/^(SECTION|MAIN|BODY|HTML)$/.test(el.tagName)) return true;
-  if (el.matches(BLOCK)) return false;
-  if ([...el.childNodes].some(c => c.nodeType === 3 && c.textContent.trim())) return false;
-  for (let n = el; n && n.tagName !== 'SECTION' && n !== document.body; n = n.parentElement) {
-    const cs = getComputedStyle(n);
-    if (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' || cs.backgroundImage !== 'none' || cs.boxShadow !== 'none') return false;
-  }
-  return true;
-}
-function boxEmpty(x, y) {
-  const m = 6, pts = [[x + W / 2, y + H / 2], [x + W / 2, y + m], [x + m, y + H * .45], [x + W - m, y + H * .45], [x + m * 3, y + H - m], [x + W - m * 3, y + H - m], [x + W / 2, y + H - m]];
-  return pts.every(([px, py]) => emptyAt(px, py));
+/* Measure obstacles once per move, rather than hit-testing the page thousands of times. */
+const obstacles = () => $$('main a, main button, main input, main p, main h1, main h2, main h3, main li, main figure, main article, .bar, .recap, .dev, .fact, .leak, .post, .out, .score, .week-tabs, .week-panel, .chat, .rank-card, .assume, footer').filter(e => e.getClientRects().length).map(e => e.getBoundingClientRect()).filter(r => r.width && r.height && r.bottom > BAR && r.top < innerHeight);
+const intersects = (a, b, margin = 4) => a.x < b.right + margin && a.x + W > b.left - margin && a.y < b.bottom + margin && a.y + H > b.top - margin;
+function boxEmpty(x, y, blocked = obstacles()) {
+  return x >= 8 && x + W <= innerWidth - 8 && y >= BAR + 12 && y + H <= innerHeight - 8 && !blocked.some(r => intersects({x, y}, r));
 }
 const wideRail = matchMedia('(min-width: 1200px)');
-function spots() {
-  const out = [], step = innerWidth < 700 ? 30 : 48;
-  const x0 = wideRail.matches ? 64 : 10, top = BAR + 14, bottom = innerHeight - H - 14;
-  for (let y = top; y <= bottom; y += step)
-    for (let x = x0; x <= innerWidth - W - 10; x += step)
-      if (boxEmpty(x, y)) out.push({x, y});
-  return out;
-}
 function pickSpot(mode) {
-  const s = spots();
-  if (!s.length) return {x: innerWidth - W * .45, y: innerHeight - H - 18}; // no room: peek in from the edge
-  const d = p => Math.hypot(p.x - B.x, p.y - B.y);
-  if (mode === 'near') return s.sort((a, b) => d(a) - d(b))[0];
-  // Zig-zag across the screen, so every move is a proper swing
-  const otherSide = s.filter(p => (p.x + W / 2 > innerWidth / 2) !== (B.x + W / 2 > innerWidth / 2));
-  const band = (otherSide.length ? otherSide : s).filter(p => p.y > innerHeight * .2 && p.y < innerHeight * .85);
-  const pool = band.length ? band : (otherSide.length ? otherSide : s);
+  const blocked = obstacles(), candidates = [], step = 56;
+  const edge = wideRail.matches ? 58 : 8;
+  // Prefer the outer gutters, keeping the text and controls clear.
+  const columns = [edge, innerWidth - W - 8];
+  for (let x = edge + step; x < innerWidth - W - step; x += step) columns.push(x);
+  for (const x of columns) for (let y = BAR + 12; y <= innerHeight - H - 8; y += step)
+    if (boxEmpty(x, y, blocked)) candidates.push({x, y});
+  const parked = !candidates.length;
+  buddy.classList.toggle('parked', parked);
+  buddy.tabIndex = parked ? -1 : 0;
+  buddy.setAttribute('aria-hidden', String(parked));
+  if (parked) return null;
+  const distance = p => Math.hypot(p.x - B.x, p.y - B.y);
+  if (mode === 'near') return candidates.sort((a, b) => distance(a) - distance(b))[0];
+  const otherSide = candidates.filter(p => (p.x + W / 2 > innerWidth / 2) !== (B.x + W / 2 > innerWidth / 2));
+  const pool = otherSide.length ? otherSide : candidates;
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
@@ -199,14 +75,6 @@ function splat(x, y, small = false) {
 /* --- motion --- */
 function render() {
   buddy.style.transform = `translate(${B.x}px, ${B.y}px) rotate(${B.rot.toFixed(2)}deg)`;
-  if (bubble.classList.contains('show')) placeBubble();
-}
-function placeBubble() {
-  const bw = bubble.offsetWidth, bh = bubble.offsetHeight, right = B.x + W / 2 > innerWidth / 2;
-  const left = right ? B.x - bw - 6 : B.x + W + 6;
-  bubble.style.left = clamp(left, 8, innerWidth - bw - 8) + 'px';
-  bubble.style.top = clamp(B.y + H * .1, BAR + 8, innerHeight - bh - 8) + 'px';
-  bubble.classList.toggle('r', right);
 }
 const smooth = p => p * p * p * (p * (p * 6 - 15) + 10);
 const rig = Object.fromEntries(['b-body', 'upper-body', 'legL', 'legR', 'kneeL', 'kneeR', 'footL', 'footR', 'armL', 'armR'].map(c => [c, buddy.querySelector('.' + c)]));
@@ -236,7 +104,9 @@ function resetLanding() {
   Object.values(rig).forEach(el => el.style.removeProperty('transform'));
 }
 // Each flight finishes its landing before another can start; repeated input cannot snap a pose.
-function swingTo({x, y}) {
+function swingTo(target) {
+  if (!target) { webOff(); return Promise.resolve(); }
+  let {x, y} = target;
   if (B.flight) return B.flight;
   const S = {x: B.x, y: B.y, rot: B.rot}, dx = x - S.x, dy = y - S.y, dist = Math.hypot(dx, dy);
   if (reduce || dist < 3) { B.x = x; B.y = y; B.rot = 0; render(); webOff(); return Promise.resolve(); }
@@ -248,11 +118,14 @@ function swingTo({x, y}) {
   B.moving = true; B.hanging = false; B.rv = 0; B.sway = 0;
   buddy.classList.remove('land', 'hang', 'wave', 'release');
   buddy.classList.add('shoot');
-  bubble.classList.remove('show');
   const flight = new Promise(resolve => {
-    const start = performance.now();
+    const start = performance.now(), token = B.token;
     let fired = false, attached = false, landed = false;
     const step = now => {
+      if (token !== B.token || reduce) {
+        resetLanding(); buddy.classList.remove('shoot', 'swing', 'land', 'release');
+        B.moving = false; B.flight = null; B.rot = 0; webOff(); render(); resolve(); return;
+      }
       const elapsed = now - start;
       if (elapsed < aim) { B.anim = requestAnimationFrame(step); return; }
       if (!fired) { fired = true; const w = wrist(); splat(w.x, w.y, true); }
@@ -260,7 +133,7 @@ function swingTo({x, y}) {
         const k = smooth((elapsed - aim) / shoot), w = wrist();
         drawWeb(w.x + (A.x - w.x) * k, w.y + (A.y - w.y) * k, w.x, w.y, 10 * (1 - k));
       } else if (elapsed < aim + shoot + duration) {
-        if (!attached) { attached = true; splat(A.x, A.y); buddy.classList.add('swing'); }
+        if (!attached) { attached = true; splat(A.x, A.y); buddy.classList.add('swing'); if (performance.now() - B.lastScroll >= 140) buddy.classList.remove('obscured'); }
         const p = (elapsed - aim - shoot) / duration, e = smooth(p), arc = Math.sin(Math.PI * e);
         B.x = S.x + dx * e;
         B.y = S.y + dy * e + dip * arc;
@@ -300,7 +173,7 @@ function swingTo({x, y}) {
 let physicsTime = performance.now();
 (function physics(now) {
   const dt = Math.min((now - physicsTime) / 1000, .032); physicsTime = now;
-  if (!B.moving) {
+  if (!reduce && !document.hidden && !B.moving) {
     B.sway *= Math.exp(-7 * dt);
     B.rv += ((B.sway - B.rot) * 65 - B.rv * 15) * dt;
     B.rot += B.rv * dt;
@@ -318,29 +191,25 @@ async function goTo(mode) {
   await swingTo(pickSpot(mode));
   await settled();
   if (!boxEmpty(B.x, B.y)) await swingTo(pickSpot('near'));
+  buddy.classList.toggle('obscured', !boxEmpty(B.x, B.y));
 }
 
-// Talk when a new section reaches the middle of the screen: swing to open space first, then speak.
+// Follow the current section silently. The numbered rail remains keyboard accessible.
 let ready = false;
-const sayIO = new IntersectionObserver(es => es.forEach(e => {
-  if (!e.isIntersecting || !ready || B.section === e.target.dataset.say) return;
-  B.section = e.target.dataset.say;
-  const key = B.section;
-  goTo('far').then(() => { if (B.section !== key) return; say(key); });
-}), {rootMargin: '-45% 0px -45% 0px'});
-$$('[data-say]').forEach(s => sayIO.observe(s));
-setTimeout(async () => {
-  ready = true; B.section = 'hello';
-  await goTo('far');
-  say('hello');
-  if (!voice.unlocked && voice.on) setTimeout(() => { if (!voice.unlocked) { bubble.textContent = 'Tap me to hear my voice!'; bubble.classList.add('show'); placeBubble(); clearTimeout(B.hide); B.hide = setTimeout(() => bubble.classList.remove('show'), 4000); } }, 6000);
-}, reduce ? 300 : 1800);
+const sectionIO = new IntersectionObserver(entries => entries.forEach(e => {
+  if (!e.isIntersecting || !ready || B.section === e.target.dataset.guide) return;
+  B.section = e.target.dataset.guide;
+  goTo('far');
+}), {rootMargin: '-40% 0px -40% 0px'});
+$$('[data-guide]').forEach(s => sectionIO.observe(s));
+setTimeout(() => { ready = true; goTo('far'); }, reduce ? 100 : 1400);
 
 // Scrolling: Spider-Man hangs from a web and sways with your scroll speed, then swings clear the moment you stop.
 let scrollT = 0, lastY = scrollY;
 addEventListener('scroll', () => {
   const dv = scrollY - lastY; lastY = scrollY;
   B.lastScroll = performance.now();
+  buddy.classList.add('obscured');
   if (!B.moving && !reduce) {
     B.hanging = true; buddy.classList.add('hang');
     B.sway = clamp(B.sway - dv * .6, -38, 38);
@@ -348,24 +217,24 @@ addEventListener('scroll', () => {
   clearTimeout(scrollT);
   scrollT = setTimeout(() => {
     B.hanging = false; buddy.classList.remove('hang');
-    if (!B.moving) { webOff(); if (!boxEmpty(B.x, B.y)) goTo('near'); }
+    if (!B.moving) { webOff(); goTo('near'); }
   }, 140);
 }, {passive: true});
 // Content can slide in after Spider-Man lands (reveal animations), so keep checking.
 setInterval(() => {
   if (B.moving || B.hanging || document.hidden || performance.now() - B.lastScroll < 300) return;
-  if (!boxEmpty(B.x, B.y)) goTo('near');
+  if (buddy.classList.contains('parked') || !boxEmpty(B.x, B.y)) goTo('near');
 }, 1000);
 // Every few seconds, swing somewhere new.
 if (!reduce) setInterval(() => {
-  if (B.moving || B.talking || document.hidden || performance.now() - B.lastScroll < 900) return;
+  if (B.moving || reduce || document.hidden || performance.now() - B.lastScroll < 900) return;
   goTo('far');
 }, 6500);
-addEventListener('resize', () => { W = buddy.offsetWidth; H = buddy.offsetHeight; setPivot(); B.x = clamp(B.x, 8, innerWidth - W - 8); B.y = clamp(B.y, BAR + 8, innerHeight - H - 8); render(); measureRail(); });
+addEventListener('resize', () => { buddy.classList.add('obscured'); B.token++; W = buddy.offsetWidth; H = buddy.offsetHeight; setPivot(); B.x = clamp(B.x, 8, innerWidth - W - 8); B.y = clamp(B.y, BAR + 8, innerHeight - H - 8); render(); measureRail(); goTo('near'); });
 
 /* --- progress rail (desktop) --- */
 const stops = $$('[data-stop]');
-$('#railStops').innerHTML = stops.map(s => `<span class="r-stop" data-n="${s.dataset.stop}">${s.dataset.stop}</span>`).join('');
+$('#railStops').innerHTML = stops.map(s => `<button type="button" class="r-stop" aria-label="Stop ${s.dataset.stop}: ${esc(s.querySelector('h2').textContent)}" data-n="${s.dataset.stop}">${s.dataset.stop}</button>`).join('');
 const railDots = $$('.r-stop');
 let maxScroll = 1;
 function measureRail() {
@@ -380,11 +249,15 @@ function measureRail() {
 function paintRail() {
   const p = Math.min(1, scrollY / maxScroll);
   $('#railFill').style.transform = `scaleY(${p})`;
-  railDots.forEach(d => d.classList.toggle('done', p >= +d.dataset.f - .002));
+  railDots.forEach((d, i) => {
+    const current = p >= +d.dataset.f - .002 && (i === railDots.length - 1 || p < +railDots[i + 1].dataset.f - .002);
+    d.classList.toggle('done', p >= +d.dataset.f - .002);
+    if (current) d.setAttribute('aria-current', 'step'); else d.removeAttribute('aria-current');
+  });
 }
 addEventListener('scroll', () => requestAnimationFrame(paintRail), {passive: true});
 new ResizeObserver(measureRail).observe(document.body);
-railDots.forEach((d, i) => { d.onclick = () => stops[i].scrollIntoView({behavior: 'smooth'}); });
+railDots.forEach((d, i) => { d.onclick = () => stops[i].scrollIntoView({behavior: reduce ? 'instant' : 'smooth'}); });
 
 /* =========================================================
    Hero: the banner is dictated, then cleaned up
@@ -411,12 +284,14 @@ async function speakLine([r, c], wordMs = 100) {
 async function typeClean(c) { for (let i = 1; i <= c.length; i++) { clean.textContent = c.slice(0, i); await sleep(26); } }
 async function hero() {
   if (reduce) { showH1(); clean.textContent = HERO[1]; dTag.textContent = 'Flow types'; return; }
-  setTimeout(showH1, 4500); // safety net
+  showH1(); // Keep the headline readable while the dictation example runs.
   const c = await speakLine(HERO, 85);
   showH1();
   await typeClean(c);
   await sleep(3200);
-  for (let n = 0; ; n = (n + 1) % DLINES.length) { await typeClean(await speakLine(DLINES[n])); await sleep(2800); }
+  for (let n = 0; ; n = (n + 1) % DLINES.length) {
+    while (reduce || document.hidden) await sleep(500);
+    await typeClean(await speakLine(DLINES[n])); await sleep(2800); }
 }
 hero();
 
@@ -426,14 +301,15 @@ $('#bars').innerHTML = USAGE.map(([m, k], i) =>
 
 /* ---------- Number glide ---------- */
 function glide(el, to, {from = 0, dur = 1400, fmt = v => Math.round(v).toLocaleString('en-US')} = {}) {
+  cancelAnimationFrame(el._glide);
   if (reduce) { el.textContent = fmt(to); return; }
   const t0 = performance.now();
   const step = t => {
     const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
     el.textContent = fmt(from + (to - from) * e);
-    if (p < 1) requestAnimationFrame(step);
+    if (p < 1) el._glide = requestAnimationFrame(step);
   };
-  requestAnimationFrame(step);
+  el._glide = requestAnimationFrame(step);
 }
 
 /* ---------- Reveal system ---------- */
@@ -445,7 +321,7 @@ const groups = [
 groups.forEach(sel => $$(sel).forEach((el, i) => { el.classList.add('reveal'); el.style.setProperty('--d', `${(i % 4) * 90}ms`); }));
 const onView = (el, fn, threshold = .25) => {
   if (!el) return;
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { fn(e.target); io.unobserve(e.target); } }), {threshold});
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { fn(e.target); io.unobserve(e.target); } }), {threshold: 0, rootMargin: '0px 0px -24px 0px'});
   io.observe(el);
 };
 $$('.reveal').forEach(el => onView(el, t => t.classList.add('in'), .12));
@@ -478,7 +354,7 @@ function zap(btn) {
   }
   zapped++;
   $('#zapCount').textContent = `${zapped} of ${totalFill} zapped`;
-  if (zapped === totalFill) { $('#sentence').classList.add('clean'); $('#game').classList.add('won'); say('win'); }
+  if (zapped === totalFill) { $('#sentence').classList.add('clean'); $('#game').classList.add('won');  }
 }
 $$('.filler').forEach(b => b.onclick = () => zap(b));
 $('#zapAll').onclick = async () => { for (const b of $$('.filler:not(.zapped)')) { zap(b); await sleep(200); } };
@@ -490,6 +366,7 @@ const roadLen = roadPath.getTotalLength();
 let roadT0 = null;
 function travel(t) {
   if (roadT0 === null) roadT0 = t;
+  if (reduce || document.hidden || !road.getClientRects().length) { requestAnimationFrame(travel); return; }
   const p = ((t - roadT0) / 14000) % 1;
   const pt = roadPath.getPointAtLength(p * roadLen);
   const svg = road.querySelector('svg').getBoundingClientRect();
@@ -539,14 +416,24 @@ const PLAY = 'M8 5v14l11-7z', PAUSE = 'M7 5h4v14H7zM13 5h4v14h-4z';
 function paint() {
   const p = audio.duration ? audio.currentTime / audio.duration : 0;
   $$('#npWave i').forEach((b, i) => b.classList.toggle('on', i / NBARS < p));
+  wave.setAttribute('aria-valuenow', Math.round(p * 100));
+  wave.setAttribute('aria-valuetext', `${fmtTime(audio.currentTime)} of ${fmtTime(audio.duration || 11)}`);
   $('#npTime').textContent = fmtTime(audio.duration && !audio.paused ? audio.currentTime : (audio.duration || 11));
 }
-playBtn.onclick = () => { stopVoice(); audio.paused ? audio.play() : audio.pause(); };
+const playNote = () => audio.play().catch(() => { playBtn.setAttribute('aria-label', 'Audio unavailable. Try again.'); });
+playBtn.onclick = () => { audio.paused ? playNote() : audio.pause(); };
 audio.onplay = () => { $('#playIcon').setAttribute('d', PAUSE); playBtn.setAttribute('aria-label', 'Pause the voice note'); };
 audio.onpause = audio.onended = () => { $('#playIcon').setAttribute('d', PLAY); playBtn.setAttribute('aria-label', 'Play the voice note'); paint(); };
 audio.ontimeupdate = paint;
 audio.onloadedmetadata = paint;
-wave.onclick = e => { if (!audio.duration) return; const r = wave.getBoundingClientRect(); audio.currentTime = (e.clientX - r.left) / r.width * audio.duration; if (audio.paused) audio.play(); };
+wave.onclick = e => { if (!audio.duration) return; const r = wave.getBoundingClientRect(); audio.currentTime = clamp((e.clientX - r.left) / r.width, 0, 1) * audio.duration; if (audio.paused) playNote(); };
+
+wave.addEventListener('keydown', e => {
+  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key) || !Number.isFinite(audio.duration)) return;
+  e.preventDefault();
+  audio.currentTime = e.key === 'Home' ? 0 : e.key === 'End' ? audio.duration : clamp(audio.currentTime + (e.key === 'ArrowRight' ? 1 : -1), 0, audio.duration);
+  paint();
+});
 
 /* =========================================================
    The growth model: one month of new installs, bets switched on or off
@@ -614,7 +501,7 @@ function renderModel() {
 }
 $$('.bet').forEach(b => b.onclick = () => { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); renderModel(); });
 $$('#dials input').forEach(i => i.addEventListener('input', renderModel));
-$('#allOn').onclick = () => { $$('.bet').forEach(b => b.setAttribute('aria-pressed', 'true')); renderModel(); say('allon'); };
+$('#allOn').onclick = () => { $$('.bet').forEach(b => b.setAttribute('aria-pressed', 'true')); renderModel(); };
 $('#allOff').onclick = () => { $$('.bet').forEach(b => b.setAttribute('aria-pressed', 'false')); renderModel(); };
 renderModel();
 
@@ -655,11 +542,11 @@ const WEEKS = [
 ];
 const WEEK_MS = 8000;
 let week = 0, weekAuto = true, weekTimer = 0;
-$('#weekTabs').innerHTML = WEEKS.map((w, i) => `<button type="button" role="tab" id="wk${i}" aria-selected="false" data-i="${i}"><small>Week ${i + 1}</small><b>${w.theme}</b><span class="tab-timer"><i></i></span></button>`).join('');
+$('#weekTabs').innerHTML = WEEKS.map((w, i) => `<button type="button" role="tab" id="wk${i}" aria-selected="false" aria-controls="weekPanel" tabindex="-1" data-i="${i}"><small>Week ${i + 1}</small><b>${w.theme}</b><span class="tab-timer"><i></i></span></button>`).join('');
 function showWeek(i) {
   week = i;
   const w = WEEKS[i];
-  $$('#weekTabs button').forEach((b, j) => { b.setAttribute('aria-selected', j === i); b.classList.toggle('past', j < i); b.classList.remove('timing'); });
+  $$('#weekTabs button').forEach((b, j) => { b.setAttribute('aria-selected', j === i); b.tabIndex = j === i ? 0 : -1; b.classList.toggle('past', j < i); b.classList.remove('timing'); });
   const tab = $('#wk' + i);
   if (weekAuto && !reduce) { void tab.offsetWidth; tab.classList.add('timing'); }
   $('#weekPanel').setAttribute('aria-labelledby', 'wk' + i);
@@ -677,8 +564,9 @@ function showWeek(i) {
 }
 $$('#weekTabs button').forEach(b => b.onclick = () => { weekAuto = false; showWeek(+b.dataset.i); });
 $('#weekTabs').addEventListener('keydown', e => {
-  if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-  weekAuto = false; const n = (week + (e.key === 'ArrowRight' ? 1 : WEEKS.length - 1)) % WEEKS.length;
+  if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(e.key)) return;
+  e.preventDefault();
+  weekAuto = false; const n = e.key === 'Home' ? 0 : e.key === 'End' ? WEEKS.length - 1 : (week + (e.key === 'ArrowRight' ? 1 : WEEKS.length - 1)) % WEEKS.length;
   showWeek(n); $('#wk' + n).focus();
 });
 weekAuto = false; showWeek(0); weekAuto = true;
@@ -716,7 +604,6 @@ async function ask(i) {
   chat.insertAdjacentHTML('beforeend', `<div class="msg q"><p>${esc(q)}</p></div>`);
   chat.insertAdjacentHTML('beforeend', `<div class="msg a"><span class="who">AS</span><p><span class="dots"><i></i><i></i><i></i></span></p></div>`);
   const p = chat.lastElementChild.querySelector('p');
-  if (ME['q' + i]) { playMe('q' + i); chat.lastElementChild.insertAdjacentHTML('beforeend', '<span class="mine">In my voice</span>'); }
   chat.scrollTo({top: chat.scrollHeight, behavior: reduce ? 'auto' : 'smooth'});
   await sleep(reduce ? 0 : 650);
   if (reduce) p.textContent = a;
@@ -727,3 +614,20 @@ async function ask(i) {
 $$('#chips button').forEach(b => b.onclick = () => ask(+b.dataset.i));
 
 measureRail();
+
+// Respect both the system preference and an explicit pause control.
+const motionToggle = $('#motionToggle');
+function setMotion(paused) {
+  reduce = paused;
+  document.documentElement.classList.toggle('reduced-motion', paused);
+  motionToggle.setAttribute('aria-pressed', String(paused));
+  motionToggle.textContent = paused ? 'Resume animations' : 'Pause animations';
+  if (paused) {
+    B.token++; B.hanging = false; B.sway = 0; B.rv = 0; B.rot = 0;
+    buddy.classList.remove('hang'); webOff(); render(); clearTimeout(weekTimer);
+    $$('.reveal').forEach(el => el.classList.add('in')); showH1();
+  }
+}
+motionToggle.onclick = () => setMotion(!reduce);
+motionPreference.addEventListener('change', e => setMotion(e.matches));
+setMotion(reduce);

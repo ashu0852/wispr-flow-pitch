@@ -5,24 +5,26 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ashutosh Singh · Upcoming Head of Growth · Wispr Flow</title>
 <meta name="description" content="Ashutosh Singh's application for Head of Growth, B2C at Wispr Flow.">
-<script>document.documentElement.classList.add('js')</script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="fonts.css?v=20261003-2">
+<link rel="stylesheet" href="style.css?v=20261003-2">
 </head>
 <body>
+<a class="skip-link" href="#top">Skip to content</a>
 <header class="bar">
   <a class="name" href="#top">Ashutosh Singh</a>
   <span class="role"><i class="live" aria-hidden="true"></i>Upcoming Head of Growth · Wispr Flow</span>
   <nav class="bar-nav" aria-label="Sections"><a href="#math">The math</a><a href="#days">First year</a></nav>
-  <button class="snd" id="snd" type="button" aria-pressed="true" title="Spider-Man's voice"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M4 9v6h4l5 5V4L8 9H4z"/><path class="snd-on" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="snd-off" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16.5 9.5l5 5M21.5 9.5l-5 5"/></svg><span>Spider-Man's voice</span></button>
   <a class="talk" href="#interview"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Interview me</a>
 </header>
 
-<!-- Spider-Man, the guide who wanders the page and talks you through it -->
-<div class="rail" id="rail" aria-hidden="true"><div class="rail-line"><i id="railFill"></i></div><div id="railStops"></div></div>
+<!-- Silent guide and section navigation -->
+<nav class="rail" id="rail" aria-label="Plan progress"><div class="rail-line"><i id="railFill"></i></div><div id="railStops"></div></nav>
 <svg class="webs" id="webs" aria-hidden="true"><path class="web-a" id="webA" d=""/><path class="web-b" id="webB" d=""/><g id="splats"></g></svg>
-<button class="buddy" id="buddy" type="button" aria-label="Spider-Man, your guide. Click for a swing and a fun fact.">
+<button class="buddy" id="buddy" type="button" aria-label="Spider-Man, your guide. Click to visit the next section.">
   <span class="b-face">
   <svg class="spider-art" viewBox="0 0 100 120" aria-hidden="true">
     <defs>
@@ -97,11 +99,11 @@
   </svg>
   </span>
 </button>
-<div class="bubble" id="bubble" role="status" aria-live="polite"></div>
 
-<main id="top">
+<main id="top" tabindex="-1">
+<noscript><p class="no-js">The plan is readable below. Enable JavaScript to try the interactive model and interview.</p></noscript>
 
-<section class="hero" data-say="hello">
+<section class="hero" data-guide="hello">
   <div class="hero-copy">
     <p class="hello">For Tanay and the Wispr Flow team</p>
     <div class="dictate" aria-hidden="true">
@@ -112,7 +114,6 @@
     <h1 id="h1"><span class="w">Ashutosh</span> <span class="w">Singh,</span><br><span class="w">your</span> <span class="w">upcoming</span> <em><span class="w">Head</span> <span class="w">of</span> <span class="w">Growth.</span></em></h1>
     <p class="intro">This April I was Wispr Flow's <b>#1 user in my cohort</b>. Below is my growth plan, in numbers: where the revenue leaks, seven bets sized in dollars, and a one-year plan with the scoreboard I'd want to be judged on.</p>
     <div class="actions"><a class="btn solid" href="#math">Show me the math</a><a class="btn line" href="#path">Walk the plan</a></div>
-    <button type="button" class="me-play" id="meIntro" data-clip="intro" hidden><span class="me-ic"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span><span class="me-t">Hear it from me<small>20 seconds, in my own voice</small></span></button>
   </div>
 
   <div class="hero-art">
@@ -127,16 +128,16 @@
         <div class="bars" id="bars"></div>
       </div>
       <dl>
-        <div><dt>Words a minute</dt><dd>134</dd><small>3× typing speed</small></div>
-        <div><dt>Apps &amp; sites</dt><dd>21</dd><small>9 new in April</small></div>
-        <div><dt>Devices</dt><dd>3</dd><small>Mac, iPhone, Android</small></div>
+        <div><dt>Words a minute</dt><dd>134<small>3× typing speed</small></dd></div>
+        <div><dt>Apps &amp; sites</dt><dd>21<small>9 new in April</small></dd></div>
+        <div><dt>Devices</dt><dd>3<small>Mac, iPhone, Android</small></dd></div>
       </dl>
       <p class="def">"Cohort" is Wispr Flow's own term: users who started around the same time, ranked by total words.</p>
     </figure>
   </div>
 </section>
 
-<section class="chapter ink today" id="today" data-say="today">
+<section class="chapter ink today" id="today" data-guide="today">
   <p class="kicker center">The starting point</p>
   <h2 class="center">Demand isn't Wispr Flow's problem. <em>Turning it into revenue is.</em></h2>
   <div class="facts">
@@ -151,7 +152,7 @@
   <p class="src center">Wispr Flow's Series B post · TechCrunch, May 2026 · Postbeam's growth teardown</p>
 </section>
 
-<section class="chapter game-sec" id="game" data-say="game">
+<section class="chapter game-sec" id="game" data-guide="game">
   <p class="kicker center">A 10-second game</p>
   <h2 class="center">Be Wispr Flow. <em>Zap the fillers.</em></h2>
   <p class="body center">Tap every filler word. Growth is the same job: find the friction, remove it.</p>
@@ -160,7 +161,7 @@
   <p class="game-done" id="gameDone">Clean. Now here's the friction I found in Wispr Flow's funnel. <a href="#path">See the route ↓</a></p>
 </section>
 
-<section class="chapter route-sec" id="path" data-say="route">
+<section class="chapter route-sec" id="path" data-guide="route">
   <p class="kicker center">The route</p>
   <h2 class="center">Six stops from <em>user to Head of Growth.</em></h2>
   <p class="body center">Tap any stop to jump there. Spider-Man keeps track of where you are.</p>
@@ -178,7 +179,7 @@
   </div>
 </section>
 
-<section id="noticed" class="chapter lav" data-stop="1" data-say="s1">
+<section id="noticed" class="chapter lav" data-stop="1" data-guide="s1">
   <p class="stop-tag"><span>Stop 1 of 6</span>Listen like a user</p>
   <div class="split">
     <div>
@@ -212,7 +213,7 @@
   </div>
 </section>
 
-<section class="chapter paper" id="leaks" data-stop="2" data-say="s2">
+<section class="chapter paper" id="leaks" data-stop="2" data-guide="s2">
   <p class="stop-tag center"><span>Stop 2 of 6</span>Plug two leaks</p>
   <h2 class="center">Two leaks I found <em>as a paying user.</em></h2>
   <p class="body center">Both cost revenue quietly. Both are small fixes. Flip each card to see the fix.</p>
@@ -255,7 +256,7 @@
   <p class="aside center">The referral leak might be deliberate, since free months that turn into habits are cheap acquisition. Then it's worth measuring, not guessing.</p>
 </section>
 
-<section class="chapter ink" id="india" data-stop="3" data-say="s3">
+<section class="chapter ink" id="india" data-stop="3" data-guide="s3">
   <p class="stop-tag dark"><span>Stop 3 of 6</span>Win India</p>
   <div class="split">
     <div>
@@ -277,7 +278,7 @@
   </div>
 </section>
 
-<section class="chapter" id="linkedin" data-stop="4" data-say="s4">
+<section class="chapter" id="linkedin" data-stop="4" data-guide="s4">
   <p class="stop-tag"><span>Stop 4 of 6</span>Make LinkedIn a channel</p>
   <div class="split">
     <div>
@@ -295,7 +296,7 @@
       <p>The trick isn't speed. It's that I stopped editing while I was still thinking.</p>
       <div class="note-player">
         <button type="button" class="play" id="play" aria-label="Play the voice note"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path id="playIcon" fill="currentColor" d="M8 5v14l11-7z"/></svg></button>
-        <div class="np-wave" id="npWave" aria-hidden="true"></div>
+        <div class="np-wave" id="npWave" role="slider" tabindex="0" aria-label="Voice note position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
         <span class="np-time" id="npTime">0:11</span>
         <audio id="voiceNote" src="media/voice-note.m4a" preload="metadata"></audio>
       </div>
@@ -304,7 +305,7 @@
   </div>
 </section>
 
-<section class="chapter sand" id="math" data-stop="5" data-say="s5">
+<section class="chapter sand" id="math" data-stop="5" data-guide="s5">
   <p class="stop-tag center"><span>Stop 5 of 6</span>Add up the math</p>
   <h2 class="center">What the plan is worth, <em>in dollars.</em></h2>
   <p class="body center">A model of one month of new installs, built on Wispr Flow's public numbers. Switch bets on and watch what each month's sign-ups turn into.</p>
@@ -343,7 +344,7 @@
   </details>
 </section>
 
-<section class="chapter paper" id="days" data-stop="6" data-say="s6">
+<section class="chapter paper" id="days" data-stop="6" data-guide="s6">
   <p class="stop-tag center"><span>Stop 6 of 6</span>The first year</p>
   <h2 class="center">My first year, <em>from week one to month twelve.</em></h2>
   <p class="body center">Fix the leaks in month one, prove the bets by day 90, scale the winners by month six, and open new revenue by month twelve.</p>
@@ -381,7 +382,7 @@
   <div class="score">
     <h3>The one-year scoreboard</h3>
     <p class="score-sub">What I'd want to be judged on. "Today" numbers are public or my estimates. The run-rate row adds up the bets from stop 5 as they ramp. India at 4% in year one also counts on the micro-plan test, which sits outside the model.</p>
-    <div class="score-table" role="table" aria-label="One-year scoreboard">
+    <div class="score-table" tabindex="0" role="table" aria-label="One-year scoreboard">
       <div class="sr sh" role="row"><span role="columnheader">Metric</span><span role="columnheader">Today</span><span role="columnheader">Day 90</span><span role="columnheader">Month 6</span><span role="columnheader">Year 1</span></div>
       <div class="sr hl" role="row"><span role="cell">Extra revenue a year from the plan</span><span role="cell" class="t-now">$0</span><span role="cell" class="t-goal">$2.6M</span><span role="cell" class="t-goal">$5M</span><span role="cell" class="t-goal">$7M+</span></div>
       <div class="sr" role="row"><span role="cell">India's share of new revenue</span><span role="cell" class="t-now">~2%</span><span role="cell" class="t-goal">2.5%</span><span role="cell" class="t-goal">3%</span><span role="cell" class="t-goal">4%</span></div>
@@ -393,7 +394,7 @@
   </div>
 </section>
 
-<section class="receipts-sec" id="proof" data-say="proof">
+<section class="receipts-sec" id="proof" data-guide="proof">
   <div class="sec-head">
     <p class="kicker">Why me</p>
     <h2>I've grown an audience business <em>from the inside.</em></h2>
@@ -438,11 +439,11 @@
   </div>
 </section>
 
-<section class="chapter ink" id="interview" data-say="interview">
+<section class="chapter ink" id="interview" data-guide="interview">
   <div class="interview">
     <h2>Interview me. <em>Pick a question.</em></h2>
     <p class="body center">The eight questions I'd ask if I were hiring me. Tap one.</p>
-    <div class="chat" id="chat" aria-live="polite">
+    <div class="chat" id="chat" tabindex="0" aria-label="Interview answers" aria-live="polite">
       <div class="msg a"><span class="who">AS</span><p>Hi Tanay. Pick any question below. Each answer takes about 15 seconds to read.</p></div>
     </div>
     <div class="chips" id="chips"></div>
@@ -451,7 +452,7 @@
   </div>
 </section>
 
-<section class="chapter" id="gaps" data-say="gaps">
+<section class="chapter" id="gaps" data-guide="gaps">
   <h2 class="center">What I haven't <em>done yet.</em></h2>
   <div class="gaps">
     <article><b>Millions a month in paid media</b><p>My scale is organic, creator-led and partnerships. I'd own the decisions and lean on your paid leads for platform depth.</p></article>
@@ -460,17 +461,17 @@
   </div>
 </section>
 
-<section class="close" data-say="close">
+<section class="close" data-guide="close">
   <h2>If you got this far, say <em>“hire him”</em> into Wispr Flow.</h2>
-  <button type="button" class="me-play dark" id="meClose" data-clip="close" hidden><span class="me-ic"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg></span><span class="me-t">A last word from me<small>15 seconds</small></span></button>
-  <p><a href="mailto:singhashutosh060@gmail.com">singhashutosh060@gmail.com</a><span>·</span><a href="https://www.linkedin.com/in/singhashutosh05/" target="_blank" rel="noopener">LinkedIn</a><span>·</span>India</p>
+  <p><a href="mailto:singhashutosh060@gmail.com">singhashutosh060@gmail.com</a><span>·</span><a href="https://www.linkedin.com/in/singhashutosh05/" target="_blank" rel="noopener noreferrer">LinkedIn</a><span>·</span>India</p>
 </section>
 </main>
 
 <footer class="receipts">
-  <p>Sources: my own Wispr Flow emails (monthly recaps Feb–Apr, lifecycle emails Sep 2026), <a href="https://wisprflow.ai/post/series-b" target="_blank" rel="noopener">Wispr Flow's Series B post</a>, <a href="https://techcrunch.com/2026/05/09/voice-ai-in-india-is-hard-wispr-flow-is-betting-on-it-anyway/" target="_blank" rel="noopener">TechCrunch on India</a>, <a href="https://www.postbeam.ai/blog/how-wisprflow-grows" target="_blank" rel="noopener">Postbeam's growth teardown</a> and <a href="https://jobs.ashbyhq.com/wispr-flow/365a017d-49e7-41cc-9b7c-e2834b86b813" target="_blank" rel="noopener">the job posting</a>. Model effects are my estimates and say so.</p>
+  <p><button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false">Pause animations</button></p>
+  <p>Sources: my own Wispr Flow emails (monthly recaps Feb–Apr, lifecycle emails Sep 2026), <a href="https://wisprflow.ai/post/series-b" target="_blank" rel="noopener noreferrer">Wispr Flow's Series B post</a>, <a href="https://techcrunch.com/2026/05/09/voice-ai-in-india-is-hard-wispr-flow-is-betting-on-it-anyway/" target="_blank" rel="noopener noreferrer">TechCrunch on India</a>, <a href="https://www.postbeam.ai/blog/how-wisprflow-grows" target="_blank" rel="noopener noreferrer">Postbeam's growth teardown</a> and <a href="https://jobs.ashbyhq.com/wispr-flow/365a017d-49e7-41cc-9b7c-e2834b86b813" target="_blank" rel="noopener noreferrer">the job posting</a>. Model effects are my estimates and say so.</p>
   <p>An application by Ashutosh Singh. Not affiliated with Wispr. Spider-Man is a Marvel character; this is an unofficial fan illustration.</p>
 </footer>
-<script type="module" src="app.js"></script>
+<script type="module" src="app.js?v=20261003-2"></script>
 </body>
 </html>
