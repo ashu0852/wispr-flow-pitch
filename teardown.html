@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" class="js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ashutosh Singh · Head of Growth Pitch · Wispr Flow</title>
+<meta name="description" content="30-second executive growth teardown for Wispr Flow by Ashutosh Singh.">
+<link rel="stylesheet" href="style.css">
+<style>
+/* Teardown Specific Glanceable Enhancements */
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0 28px;
+}
+.h-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.h-pill b { color: var(--mint); }
+.h-pill.coral b { color: var(--coral); }
+.h-pill.purple b { color: var(--purple); }
+
+.summary-banner {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(15, 23, 42, 0.8));
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-radius: 18px;
+  padding: 22px 28px;
+  margin: 32px 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+}
+.sb-icon {
+  font-size: 32px;
+  line-height: 1;
+}
+.sb-text h3 {
+  font-size: 19px;
+  color: #FFF;
+  margin-bottom: 4px;
+}
+.sb-text p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* Punchy Leak Cards */
+.leak-glance {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+}
+.lg-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 12px;
+  font-size: 13.5px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  align-items: center;
+}
+.lg-row span {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.lg-row.problem span { color: var(--coral); }
+.lg-row.fix span { color: var(--mint); }
+.lg-row.impact span { color: var(--purple); }
+.lg-row b { color: #FFF; font-weight: 500; }
+
+/* Visual Sprint Pipeline */
+.sprint-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+.sprint-col {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sc-head {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+.sc-week {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--purple);
+  letter-spacing: 0.06em;
+}
+.sc-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #FFF;
+  margin-top: 2px;
+}
+.sc-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sc-items li {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  padding-left: 14px;
+  position: relative;
+}
+.sc-items li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--purple);
+  font-weight: 700;
+}
+.sc-kpi {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+  font-size: 12px;
+  color: var(--mint);
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .sprint-board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .sprint-board { grid-template-columns: minmax(0, 1fr); }
+  .summary-banner { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#top">Skip to content</a>
+
+<header class="bar">
+  <div class="bar-left">
+    <a class="name" href="#top">Ashutosh Singh</a>
+    <span class="role"><i class="live" aria-hidden="true"></i>Upcoming Head of Growth · Wispr Flow</span>
+  </div>
+  <nav class="bar-nav" aria-label="Sections">
+    <a href="#proof">Proof</a>
+    <a href="#leaks">Leaks</a>
+    <a href="#math">+$6.5M Model</a>
+    <a href="#roadmap">30-Day Plan</a>
+  </nav>
+  <a class="talk" href="#interview"><span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Interview me</a>
+</header>
+
+<main id="top" tabindex="-1">
+
+<!-- HERO: ULTRA-SCANNABLE -->
+<section class="hero" id="hero">
+  <div class="hero-copy">
+    <p class="hello">For Tanay Pratap &amp; the Wispr Flow Team</p>
+    
+    <div class="dictate" aria-hidden="true">
+      <span class="pill-wave"><i></i><i></i><i></i><i></i><i></i></span>
+      <p><span class="raw" id="raw"></span><span class="clean" id="clean"></span></p>
+      <span class="d-tag" id="dTag">You say</span>
+    </div>
+
+    <h1 id="h1"><span class="w">Ashutosh</span> <span class="w">Singh,</span><br><span class="w">your</span> <span class="w">upcoming</span> <em><span class="w">Head</span> <span class="w">of</span> <span class="w">Growth.</span></em></h1>
+    
+    <div class="hero-pills">
+      <span class="h-pill">🏆 <b>#1 user in cohort</b> (70,900 words)</span>
+      <span class="h-pill coral">🚨 <b>2 silent leaks</b> found</span>
+      <span class="h-pill purple">📈 <b>+$6.5M ARR</b> modeled</span>
+    </div>
+
+    <p class="intro">A 30-second executive breakdown of how I would accelerate Wispr Flow's trajectory: plugging two quiet revenue leaks, unlocking India monetization, and running 7 quantitative growth bets.</p>
+    
+    <div class="actions">
+      <a class="btn solid" href="#math">Simulate +$6.5M ARR Cockpit</a>
+      <a class="btn line" href="#leaks">Inspect the 2 Leaks</a>
+    </div>
+  </div>
+
+  <div class="hero-art">
+    <figure class="recap float" aria-label="My Wispr Flow April 2026 Recap">
+      <figcaption>
+        <span>Verified From Wispr Recap Emails</span>
+        <span class="mini-wave" aria-hidden="true"><i></i><i></i><i></i></span>
+      </figcaption>
+      <div class="rank">
+        <span class="rank-num">#1</span>
+        <p><strong>Most words dictated in my cohort</strong>April 2026<span class="up">↑ 3 spots since March</span></p>
+      </div>
+      <div class="recap-row">
+        <div class="recap-big"><span data-count="70900">70,900</span><small>Words dictated (Jan–Apr 2026)</small></div>
+        <div class="bars" id="bars"></div>
+      </div>
+      <dl class="recap-stats">
+        <div><dt>Speed</dt><dd>134<small>wpm (3× typing)</small></dd></div>
+        <div><dt>Active Apps</dt><dd>21<small>tools &amp; platforms</small></dd></div>
+        <div><dt>Habit</dt><dd>Daily<small>primary input</small></dd></div>
+      </dl>
+      <p class="def">I don't just study Wispr Flow. I live in it 8 hours a day.</p>
+    </figure>
+  </div>
+</section>
+
+<!-- STOP 1: THE TWO REVENUE LEAKS -->
+<section class="chapter" id="leaks">
+  <p class="kicker center">Funnel Leaks · Found as a Paying User</p>
+  <h2 class="center">Two silent leaks costing ARR. <em>Fast, high-ROI fixes.</em></h2>
+
+  <div class="leaks" style="margin-top: 36px;">
+    <!-- LEAK 1 -->
+    <article class="leak" id="leak1" data-v="now">
+      <header class="leak-head">
+        <span class="leak-id">Leak 01</span>
+        <span class="leak-area">Referral Abuse</span>
+        <span class="leak-status"><i></i><em class="st-now">Leaking Revenue</em><em class="st-fix">Fixed</em></span>
+      </header>
+      <h3>Twelve burner emails get anyone a <em>year of Pro for $0.</em></h3>
+      
+      <div class="screen">
+        <p class="screen-k">12 free months unlocked via my own secondary test emails</p>
+        <div class="months" id="months" aria-hidden="true"></div>
+      </div>
+
+      <div class="leak-glance">
+        <div class="lg-row problem">
+          <span>Problem</span>
+          <b>Burner emails grant unlimited Pro months. 2 simultaneous logins allow account sharing.</b>
+        </div>
+        <div class="lg-row fix">
+          <span>Fix</span>
+          <b>1 referral reward per verified hardware device ID + 1 live dictation session limit.</b>
+        </div>
+        <div class="lg-row impact">
+          <span>Impact</span>
+          <b>Saves $144/user · 1 week engineering effort.</b>
+        </div>
+      </div>
+
+      <div class="ab" data-target="#leak1">
+        <button type="button" data-v="now" aria-pressed="true">The Exploit</button>
+        <button type="button" data-v="fix" aria-pressed="false">Proposed Fix</button>
+      </div>
+    </article>
+
+    <!-- LEAK 2 -->
+    <article class="leak" id="leak2" data-v="now">
+      <header class="leak-head">
+        <span class="leak-id">Leak 02</span>
+        <span class="leak-area">India Payments</span>
+        <span class="leak-status"><i></i><em class="st-now">Leaking Revenue</em><em class="st-fix">Fixed</em></span>
+      </header>
+      <h3>UPI Autopay failed twice, and <em>Pro silently lapsed.</em></h3>
+      
+      <div class="screen">
+        <p class="screen-k">My subscription dropped with zero warning or notification</p>
+        <div class="upi" id="upi" aria-hidden="true"></div>
+      </div>
+
+      <div class="leak-glance">
+        <div class="lg-row problem">
+          <span>Problem</span>
+          <b>Failed mandate quietly dropped subscription without email, SMS, or in-app retry.</b>
+        </div>
+        <div class="lg-row fix">
+          <span>Fix</span>
+          <b>Smart retry schedule + instant 1-tap WhatsApp payment link + 7-day grace period.</b>
+        </div>
+        <div class="lg-row impact">
+          <span>Impact</span>
+          <b>Recovers ₹3,840/sub · 2 weeks engineering effort.</b>
+        </div>
+      </div>
+
+      <div class="ab" data-target="#leak2">
+        <button type="button" data-v="now" aria-pressed="true">The Failure</button>
+        <button type="button" data-v="fix" aria-pressed="false">Proposed Fix</button>
+      </div>
+    </article>
+  </div>
+
+  <!-- MULTI-DEVICE LEAK -->
+  <div style="margin-top: 32px;">
+    <div class="ab" data-target="#devices" style="margin-bottom: 14px;">
+      <button type="button" data-v="now" aria-pressed="true">Desktop Dropoff Now</button>
+      <button type="button" data-v="fix" aria-pressed="false">Cross-Device Welcome Back</button>
+    </div>
+    <div class="devices" id="devices" data-v="now">
+      <div class="dev mac">
+        <span class="dev-label">Mac App (Primary Habit)</span>
+        <b>Ashutosh</b>
+        <p>70,900 words dictated</p>
+      </div>
+      <div class="link">
+        <span class="pulse"></span>
+        <p>38% gap</p>
+      </div>
+      <div class="dev phone">
+        <span class="dev-label">Mobile (Where Dropoff Occurs)</span>
+        <b class="bad">Disconnected User</b>
+        <b class="good">Instant Continuity</b>
+        <p class="bad">No welcome-back prompt</p>
+        <p class="good">Syncs dictionary &amp; recent dictations</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STOP 2: THE $6.5M ARR COCKPIT -->
+<section class="chapter" id="math">
+  <p class="kicker center">Interactive Growth Model</p>
+  <h2 class="center">Simulate the 7 bets. <em>Sized in real ARR.</em></h2>
+  <p class="body center">Switch bets on and off to see how 12 months of compounded sign-ups transform revenue.</p>
+
+  <div class="model" style="margin-top: 36px;">
+    <div class="bets" id="bets"></div>
+
+    <!-- Output Cockpit -->
+    <div class="out">
+      <p class="o-k">Extra ARR Added (after 12 months retention)</p>
+      <p class="o-big" id="oBig">+$0K</p>
+      <p class="o-sub" id="oSub"></p>
+      
+      <div class="funnel" id="funnel"></div>
+
+      <div class="o-row">
+        <span>India's share of new revenue</span>
+        <b id="oIndia">1.2%</b>
+      </div>
+      <div class="o-bar" aria-hidden="true"><i id="oIndiaBar"></i></div>
+
+      <div class="o-btns" style="margin-top: 18px; display: flex; gap: 10px;">
+        <button class="btn-mini light" id="allOn" type="button">Switch all bets ON</button>
+        <button class="btn-mini ghost" id="allOff" type="button">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="rank-card" style="margin-top: 24px;">
+    <div class="rank-header">
+      <p class="a-title">Ranked by ROI: Dollars per week of engineering work</p>
+      <span class="a-sub">What I would prioritize: first, second, and third</span>
+    </div>
+    <ol class="ranked" id="ranked"></ol>
+  </div>
+
+  <details class="assume" style="margin-top: 20px;">
+    <summary>
+      <span class="a-title">Inspect baseline model assumptions</span>
+      <span class="a-sub">Tap to adjust dials &amp; stress-test inputs</span>
+    </summary>
+    <div class="a-grid" id="dials" style="margin-top: 14px;"></div>
+  </details>
+</section>
+
+<!-- STOP 3: WHAT I WILL DO IN THIS ROLE -->
+<section class="chapter" id="roadmap">
+  <p class="kicker center">Role Ownership</p>
+  <h2 class="center">What I will do <em>when I get this role.</em></h2>
+  <p class="center" style="color: var(--text-muted); font-size: 14.5px; max-width: 620px; margin: 8px auto 28px;">Four concrete execution tracks I will take full ownership of—working directly with engineering.</p>
+  
+  <div class="sprint-board">
+    <!-- Col 1 -->
+    <div class="sprint-col">
+      <div class="sc-head">
+        <span class="sc-week">Track 01</span>
+        <div class="sc-title">Plug Leaks</div>
+      </div>
+      <ul class="sc-items">
+        <li>Hardware device ID limit on referrals.</li>
+        <li>One live dictation session per account.</li>
+        <li>Instrument referral drop-off funnel.</li>
+      </ul>
+      <div class="sc-kpi">Deliverable: Referral cannibalization stops</div>
+    </div>
+
+    <!-- Col 2 -->
+    <div class="sprint-col">
+      <div class="sc-head">
+        <span class="sc-week">Track 02</span>
+        <div class="sc-title">India Mandates</div>
+      </div>
+      <ul class="sc-items">
+        <li>Automated UPI Autopay retry cadence.</li>
+        <li>1-tap WhatsApp payment link.</li>
+        <li>7-day grace period before downgrade.</li>
+      </ul>
+      <div class="sc-kpi">Deliverable: Involuntary churn down 35%</div>
+    </div>
+
+    <!-- Col 3 -->
+    <div class="sprint-col">
+      <div class="sc-head">
+        <span class="sc-week">Track 03</span>
+        <div class="sc-title">Viral Recaps</div>
+      </div>
+      <ul class="sc-items">
+        <li>Shareable monthly recap cards.</li>
+        <li>1-tap share to LinkedIn with voice tag.</li>
+        <li>Incentivized peer referral loops.</li>
+      </ul>
+      <div class="sc-kpi">Deliverable: In-app shareable recap badge live</div>
+    </div>
+
+    <!-- Col 4 -->
+    <div class="sprint-col">
+      <div class="sc-head">
+        <span class="sc-week">Track 04</span>
+        <div class="sc-title">LinkedIn Engine</div>
+      </div>
+      <ul class="sc-items">
+        <li>First 25 operator-creators live.</li>
+        <li>Spoken post format benchmarked.</li>
+        <li>Attribution tracking via Dub links.</li>
+      </ul>
+      <div class="sc-kpi">Deliverable: 25 active operator posts with tracked links</div>
+    </div>
+  </div>
+</section>
+
+<!-- STOP 4: INTERACTIVE Q&A -->
+<section class="chapter" id="interview">
+  <p class="kicker center">Interactive Q&amp;A</p>
+  <h2 class="center">Ask me anything. <em>15-second answers.</em></h2>
+
+  <div class="chat-wrap" style="margin-top: 32px;">
+    <div class="chat" id="chat">
+      <div class="msg a">
+        <span class="who">AS</span>
+        <p>Hi Tanay. Click any strategic question below for a concise, 15-second response on how I operate.</p>
+      </div>
+    </div>
+    
+    <div class="chips" id="chips" style="margin-top: 20px;">
+      <button type="button" data-i="0">Why should we hire you?</button>
+      <button type="button" data-i="1">What's the biggest number on this page?</button>
+      <button type="button" data-i="2">What leaks did you find?</button>
+      <button type="button" data-i="3">How sure are you about the model?</button>
+      <button type="button" data-i="4">Why LinkedIn?</button>
+      <button type="button" data-i="5">What are your gaps?</button>
+      <button type="button" data-i="6">How will we know it worked?</button>
+      <button type="button" data-i="7">Where are you based?</button>
+    </div>
+
+    <div class="live-cta-box" style="margin-top: 24px; display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap;">
+      <a class="btn solid" href="mailto:singhashutosh060@gmail.com?subject=Wispr%20Flow%20Head%20of%20Growth%20Conversation" style="font-size: 14px; padding: 0 20px;">
+        singhashutosh060@gmail.com
+      </a>
+      <a class="btn line" href="https://www.linkedin.com/in/singhashutosh05/" target="_blank" rel="noopener noreferrer" style="font-size: 14px; padding: 0 20px;">
+        LinkedIn Profile ↗
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="receipts">
+  <div class="footer-inner">
+    <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false">Pause animations</button>
+    <p>Sources: Wispr Flow app telemetry &amp; recap emails (Apr 2026), TechCrunch, Sensor Tower, Stripe/Razorpay benchmarks.</p>
+    <p class="fineprint">Executive proposal prepared by Ashutosh Singh. Independent teardown not formally affiliated with Wispr.</p>
+  </div>
+</footer>
+
+<script defer src="app.js?v=20261005-teardown"></script>
+</body>
+</html>

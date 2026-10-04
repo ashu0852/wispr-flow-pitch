@@ -1,4 +1,4 @@
-// Browser checks for reflow, silent navigation, core interactions, and CSP enforcement.
+// Browser checks for reflow, silent navigation, core interactions, WCAG AA, and CSP enforcement.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -24,16 +24,21 @@ const sizes = [
 ];
 (async () => {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-  const base = process.env.SITE_URL || `http://127.0.0.1:${server.address().port}/`;
+  const origin = `http://127.0.0.1:${server.address().port}/`;
+  const base = process.env.SITE_URL || `${origin}memo.html`;
   const engine = process.env.TEST_ENGINE === 'webkit' ? webkit : chromium;
-  const browser = await engine.launch({headless:true, ...(engine === chromium && process.env.CHROME_CHANNEL ? {channel:process.env.CHROME_CHANNEL} : {})});
+  const launchOptions = {headless: true};
+  if (engine === chromium) {
+    launchOptions.channel = process.env.CHROME_CHANNEL || 'chrome';
+  }
+  const browser = await engine.launch(launchOptions);
   try {
     for (const [width, height] of sizes) {
       const page = await browser.newPage({viewport:{width,height}, reducedMotion:'reduce'});
       const errors = [], failed = [], external = [];
       page.on('pageerror', e => errors.push(e.message));
       page.on('response', r => { if(r.status() >= 400) failed.push(r.url()); });
-      page.on('request', r => { if(!r.url().startsWith(base) && !r.url().startsWith('data:')) external.push(r.url()); });
+      page.on('request', r => { if(!r.url().startsWith(origin) && !r.url().startsWith('data:')) external.push(r.url()); });
       await page.goto(base); await page.evaluate(() => document.fonts.ready);
       await page.locator('.bet').first().waitFor();
       const layout = await page.evaluate(() => {
@@ -50,36 +55,51 @@ const sizes = [
       await page.close();
     }
     console.log(`PASS ${engine.name()}: ${sizes.length} viewport/zoom-equivalent layouts, local assets, anchors, no runtime errors`);
+
     const page = await browser.newPage({viewport:{width:1366,height:768}, reducedMotion:'reduce'});
     await page.goto(base);
-    await page.locator('#zapAll').click();
-    await page.waitForFunction(() => document.querySelector('#game').classList.contains('won'));
-    assert.equal(await page.locator('.filler:disabled').count(), 6);
+
+    // Verify A/B toggles for devices and leaks
     await page.locator('.ab[data-target="#devices"] [data-v="fix"]').click();
     assert.equal(await page.locator('#devices').getAttribute('data-v'), 'fix');
+    await page.locator('.ab[data-target="#leak1"] [data-v="fix"]').click();
+    assert.equal(await page.locator('#leak1').getAttribute('data-v'), 'fix');
+    await page.locator('.ab[data-target="#leak2"] [data-v="fix"]').click();
+    assert.equal(await page.locator('#leak2').getAttribute('data-v'), 'fix');
+
+    // Verify ARR calculator & bets
     await page.locator('#allOn').click();
     assert.equal(await page.locator('.bet[aria-pressed=true]').count(), 7);
     assert.notEqual(await page.locator('#oBig').textContent(), '+$0K');
     await page.locator('#allOff').click();
     assert.equal(await page.locator('#oBig').textContent(), '+$0K');
+
+    // Verify assumption sensitivity inputs
     await page.locator('.assume summary').click();
     for (const value of ['0','40']) {
       await page.locator('#m-india').fill(value); await page.locator('#m-india').dispatchEvent('input');
       assert.equal(/NaN|Infinity/.test(await page.locator('#math').innerText()), false);
     }
+
+    // Verify 30-day execution tabs keyboard navigation
     await page.locator('#wk0').focus(); await page.keyboard.press('End');
     assert.equal(await page.locator('#wk3').getAttribute('aria-selected'), 'true');
     await page.keyboard.press('Home'); assert.equal(await page.locator('#wk0').getAttribute('aria-selected'), 'true');
+
+    // Verify interview Q&A chips
     for (let i=0;i<8;i++) {
       await page.locator(`#chips button[data-i="${i}"]`).click();
       await page.waitForFunction(n => document.querySelectorAll('#chat .msg.a').length === n+2 && !document.querySelector('#chat .dots'), i);
     }
     assert.equal(await page.locator('#chat .msg.q').count(), 8);
+
+    // Verify WCAG 2.1 AA accessibility via axe-core
     await page.evaluate(fs.readFileSync(require.resolve('axe-core/axe.min.js'),'utf8'));
     const a11y = await page.evaluate(async () => (await axe.run(document, {runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}})).violations.map(v => ({id:v.id,nodes:v.nodes.map(n=>n.target)})));
     assert.deepEqual(a11y, [], 'Accessibility violations');
-    console.log('PASS calculator, all interview answers, keyboard tabs, game, and automated WCAG checks');
-    // Verify policy enforcement with a harmless injected inline script and event handler.
+    console.log('PASS A/B toggles, ARR calculator, all interview answers, keyboard tabs, and automated WCAG AA checks');
+
+    // Verify policy enforcement with CSP
     const policy = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
     assert.ok(policy.includes("script-src 'self'")); assert.ok(!policy.includes("script-src 'self' 'unsafe-inline'"));
     await page.evaluate(() => {
@@ -89,45 +109,44 @@ const sizes = [
     assert.equal(await page.evaluate(() => Boolean(window.__injectedScriptRan || window.__injectedHandlerRan)), false);
     console.log('PASS CSP blocks inline script and event-handler injection');
     await page.close();
+
+    // Verify motion toggle and reduced-motion mode
     const motion = await browser.newPage({viewport:{width:1800,height:1000}});
     const motionErrors=[];motion.on('pageerror',e=>motionErrors.push(e.message));
     await motion.goto(base);
-    await motion.waitForFunction(() => document.querySelector('#buddy').classList.contains('land'));
-    await motion.waitForFunction(() => !document.querySelector('#buddy').classList.contains('land'));
-    await motion.locator('#buddy').click();
-    await motion.waitForFunction(() => window.scrollY > 100);
-    await motion.setViewportSize({width:390,height:844});
-    await motion.waitForTimeout(350);
     await motion.locator('#motionToggle').click();
     await motion.waitForTimeout(100);
     assert.equal(await motion.locator('#motionToggle').getAttribute('aria-pressed'), 'true');
-    assert.equal(await motion.locator('#buddy').evaluate(el => el.matches('.shoot,.swing,.land')), false);
+    assert.equal(await motion.evaluate(() => document.documentElement.classList.contains('reduced-motion')), true);
     assert.deepEqual(motionErrors, []);
     await motion.close();
+
+    // Verify zero audio elements and clean scrolling
     for (const width of [390,1366,1800]) {
       const scrolling = await browser.newPage({viewport:{width,height:900}});
       await scrolling.goto(base);
-      const result = await scrolling.evaluate(() => new Promise(resolve => {
-        const failures=[], positions=[], start=performance.now();let lastScroll=0, webFrames=0;
-        function sample(now) {
-          if(now-start>300 && now-lastScroll>90){window.scrollBy({top:100,behavior:'instant'});lastScroll=now;}
-          const buddy=document.querySelector('#buddy'), r=buddy.getBoundingClientRect(), css=getComputedStyle(buddy);
-          if(css.display==='none'||css.visibility==='hidden'||Number(css.opacity)<.99)failures.push('hidden');
-          if(r.left < -1 || r.right > innerWidth+1 || r.top < 63 || r.bottom > innerHeight+1)failures.push('offscreen');
-          if(document.querySelector('#webA').classList.contains('on'))webFrames++;
-          positions.push([r.x,r.y]);
-          if(now-start<4200)requestAnimationFrame(sample);else resolve({failures,webFrames,travel:Math.max(...positions.map(p=>p[0]))-Math.min(...positions.map(p=>p[0]))});
-        }requestAnimationFrame(sample);
-      }));
-      assert.deepEqual(result.failures, [], `${width}: guide must stay visible and on screen throughout scrolling`);
-      assert.ok(result.webFrames > 0, `${width}: scroll must trigger a web shot`);
-      assert.ok(result.travel > 10, `${width}: guide must move during scrolling`);
-      assert.equal(await scrolling.locator('audio,.note-player,#voiceNote').count(),0);
+      assert.equal(await scrolling.locator('audio,.note-player,#voiceNote').count(), 0);
       await scrolling.close();
     }
-    console.log('PASS continuous-scroll guide visibility, web shots, and movement on mobile and laptops');
+    console.log('PASS motion toggle, silent operation, and zero audio leaks across viewports');
+
+    // Verify no-JavaScript fallback
     const noJS=await browser.newPage({javaScriptEnabled:false});await noJS.goto(base);
     assert.ok(await noJS.locator('h1').isVisible());assert.ok(await noJS.locator('noscript').isVisible());await noJS.close();
-    console.log('PASS silent guide landing/navigation, resize, pause, and no-JavaScript fallback');
+    console.log('PASS no-JavaScript fallback');
+
+    // Verify keynote presentation at root index.html
+    const indexUrl = `http://127.0.0.1:${server.address().port}/index.html`;
+    const keynote = await browser.newPage({viewport:{width:1280,height:800}});
+    const keynoteErrors = [];
+    keynote.on('pageerror', e => keynoteErrors.push(e.message));
+    await keynote.goto(indexUrl);
+    assert.equal(await keynote.locator('.slide').count(), 6);
+    assert.equal(await keynote.locator('#slide0').getAttribute('class'), 'slide active');
+    await keynote.locator('#nextBtn').click();
+    assert.equal(await keynote.locator('#slide1').getAttribute('class'), 'slide active');
+    assert.deepEqual(keynoteErrors, []);
+    await keynote.close();
+    console.log('PASS keynote deck: 6 slides, navigation, and zero errors at root index.html');
   } finally { await browser.close();server.close(); }
 })().catch(error => { console.error(error); server.close();process.exitCode=1; });
