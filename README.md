@@ -4,6 +4,8 @@ Live site: https://ashu0852.github.io/wispr-flow-pitch/
 
 Static HTML, CSS, SVG and JavaScript, hosted by GitHub Pages from `main`. No production packages, backend, forms, tracking, or external runtime resources. Fonts and their open-source licenses are included locally.
 
+The homepage restores the original animated website from revision `8d7c66b`. The later presentation variants remain available at `minimal.html`, `deck.html`, `memo.html`, and `teardown.html`, with separate presentation assets.
+
 Spider-Man is a silent guide. Clicking him goes to the next section. The numbered rail provides keyboard-accessible navigation. System reduced-motion settings and the footer's Pause animations control are supported.
 
 ## Check locally
